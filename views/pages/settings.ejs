@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FindYourDoctor</title>
+    <% include ../partials/head %>
+
+    <!--<link href="fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" media="screen" />-->
+
+
+
+
+    <style>
+
+        /*body {*/
+        /*margin-top: 40px;*/
+        /*text-align: center;*/
+        /*font-size: 14px;*/
+        /*font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;*/
+        /*}*/
+        .datepicker {z-index: 1151 !important;}
+        .timepicker {z-index: 1151 !important;}
+
+        #wrap {
+            width: 1100px;
+            margin: 0 auto;
+        }
+
+        #external-events {
+            float: left;
+            width: 150px;
+            padding: 0 10px;
+            border: 1px solid #ccc;
+            background: #eee;
+            text-align: left;
+        }
+
+        #external-events h4 {
+            font-size: 16px;
+            margin-top: 0;
+            padding-top: 1em;
+        }
+
+        #external-events .fc-event {
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        #external-events p {
+            margin: 1.5em 0;
+            font-size: 11px;
+            color: #666;
+        }
+
+        #external-events p input {
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        #calendar {
+            float: right;
+            width: 1150px;
+        }
+
+        .modal-body {
+            max-height: 800px;
+            max-width: 800px;
+        }
+
+
+
+    </style>
+</head>
+<body class="fixed-header">
+<header>
+    <% include ../partials/header %>
+</header>
+
+<!-- BEGIN SIDEBPANEL-->
+<nav class="page-sidebar" data-pages="sidebar">
+    <!-- BEGIN SIDEBAR MENU TOP TRAY CONTENT-->
+    <div class="sidebar-overlay-slide from-top" id="appMenu">
+        <div class="row">
+            <div class="col-xs-6 no-padding">
+                <a href="#" class="p-l-40"><img src="assets/img/demo/social_app.svg" alt="socail">
+                </a>
+            </div>
+            <div class="col-xs-6 no-padding">
+                <a href="#" class="p-l-10"><img src="assets/img/demo/email_app.svg" alt="socail">
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 m-t-20 no-padding">
+                <a href="#" class="p-l-40"><img src="assets/img/demo/calendar_app.svg" alt="socail">
+                </a>
+            </div>
+            <div class="col-xs-6 m-t-20 no-padding">
+                <a href="#" class="p-l-10"><img src="assets/img/demo/add_more.svg" alt="socail">
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- END SIDEBAR MENU TOP TRAY CONTENT-->
+    <!-- BEGIN SIDEBAR MENU HEADER-->
+    <div class="sidebar-header" style="background-color: #D8D8D8">
+        <img src="assets/img/dash_logo.png" alt="logo" class="brand" data-src="assets/img/dash_logo.png" data-src-retina="assets/img/dash_logo.png" width="180" height="35">
+        <!--<div class="sidebar-header-controls">-->
+        <!--<button type="button" class="btn btn-xs sidebar-slide-toggle btn-link m-l-20" data-pages-toggle="#appMenu"><i class="fa fa-angle-down fs-16"></i>-->
+        <!--</button>-->
+        <!--<button type="button" class="btn btn-link visible-lg-inline" data-toggle-pin="sidebar"><i class="fa fs-12"></i>-->
+        <!--</button>-->
+        <!--</div>-->
+    </div>
+    <!-- END SIDEBAR MENU HEADER-->
+    <!-- START SIDEBAR MENU -->
+    <div class="sidebar-menu" style="background-color: #0e90d2">
+        <!-- BEGIN SIDEBAR MENU ITEMS-->
+        <ul class="menu-items">
+            <li class="m-t-30 ">
+                <a href="home" class="detailed">
+                    <img src="assets/img/home_logo.png" alt="logo" class="brand" data-src="assets/img/home_logo.png" data-src-retina="assets/img/home_logo.png" width="80" height="20">
+                </a>
+                <span class="icon-thumbnail"><i class="pg-home"></i></span>
+            </li>
+            <li class="">
+                <a href="email" class="detailed">
+                    <img src="assets/img/email_logo.png" alt="logo" class="brand" data-src="assets/img/email_logo.png" data-src-retina="assets/img/email_logo.png" width="70" height="20">
+                </a>
+                <span class="icon-thumbnail "><i class="pg-mail"></i></span>
+            </li>
+            <li class="">
+                <a href="social">
+                    <img src="assets/img/social_logo.png" alt="logo" class="brand" data-src="assets/img/social_logo.png" data-src-retina="assets/img/social_logo.png" width="75" height="20">
+                </a>
+                <span class="icon-thumbnail"><i class="pg-social"></i></span>
+            </li>
+            <li class="">
+                <a href="calendar">
+                    <img src="assets/img/calendar_logo.png" alt="logo" class="brand" data-src="assets/img/calendar_logo.png" data-src-retina="assets/img/calendar_logo.png" width="100" height="20">
+                </a>
+                <span class="icon-thumbnail"><i class="pg-calender"></i></span>
+            </li>
+            <li class="">
+                <a href="settings">
+                    <img src="assets/img/doctors_logo.png" alt="logo" class="brand" data-src="assets/img/doctors_logo.png" data-src-retina="assets/img/doctors_logo.png" width="80" height="20">
+                </a>
+                <span class="icon-thumbnail bg-success" style="background-color: #D8D8D8"><i class="pg-settings"></i></span>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <!-- END SIDEBAR MENU -->
+</nav>
+<!-- END SIDEBAR -->
+<!-- END SIDEBPANEL-->
+
+<!-- START PAGE-CONTAINER -->
+<div class="page-container">
+    <!-- START PAGE HEADER WRAPPER -->
+    <!-- START HEADER -->
+    <div class="header ">
+        <!-- START MOBILE CONTROLS -->
+        <!-- LEFT SIDE -->
+        <div class="pull-left full-height visible-sm visible-xs">
+            <!-- START ACTION BAR -->
+            <div class="sm-action-bar">
+                <a href="#" class="btn-link toggle-sidebar" data-toggle="sidebar">
+                    <span class="icon-set menu-hambuger"></span>
+                </a>
+            </div>
+            <!-- END ACTION BAR -->
+        </div>
+        <!-- RIGHT SIDE -->
+        <div class="pull-right full-height visible-sm visible-xs">
+            <!-- START ACTION BAR -->
+            <div class="sm-action-bar">
+                <a href="#" class="btn-link" data-toggle="quickview" data-toggle-element="#quickview">
+                    <span class="icon-set menu-hambuger-plus"></span>
+                </a>
+            </div>
+            <!-- END ACTION BAR -->
+        </div>
+        <!-- END MOBILE CONTROLS -->
+        <div class=" pull-left sm-table">
+            <div class="header-inner">
+                <div class="brand inline">
+                    <img src="assets/img/newlogo.png" alt="logo" data-src="assets/img/newlogo.png" data-src-retina="assets/img/newlogo.png" width="100" height="50">
+                </div>
+                <!--<ul class="notification-list no-margin hidden-sm hidden-xs b-grey b-l b-r no-style p-l-30 p-r-20">-->
+                <a class="search-link" data-toggle="search"><i class="pg-search"></i><input placeholder="Type anywhere to search..." class="bold no-border" style="font-size: 17px; width: 250px;"></input></a>
+            <!--</ul>-->
+            </div>
+        </div>
+        <div class=" pull-right">
+            <div class="header-inner">
+                <a href="#" class="btn-link icon-set menu-hambuger-plus m-l-20 sm-no-margin hidden-sm hidden-xs" data-toggle="quickview" data-toggle-element="#quickview"></a>
+            </div>
+        </div>
+        <div class=" pull-right">
+            <!-- START User Info-->
+            <div class="visible-lg visible-md m-t-10">
+                <div class="pull-left p-r-10 p-t-10 fs-16 font-heading">
+                    <span class="semi-bold"><%= user.fname%></span> <span class="text-master"><%= user.sname%></span>
+                </div>
+                <div class="dropdown pull-right">
+                    <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="thumbnail-wrapper d32 circular inline m-t-5">
+                <img src="assets/img/profiles/myself.jpg" alt="" data-src="assets/img/profiles/myself.jpg" data-src-retina="assets/img/profiles/myself.jpg" width="32" height="32">
+            </span>
+                    </button>
+                    <ul class="dropdown-menu profile-dropdown" role="menu">
+                        <li><a href="/home"><i class="pg-home"></i> Home</a>
+                        </li>
+                        <li><a href="/email"><i class="pg-mail"></i> Email</a>
+                        </li>
+                        <li><a href="/social"><i class="pg-social"></i> Social</a>
+                        </li>
+                        <li><a href="/calendar"><i class="pg-calender"></i> Calendar</a>
+                        </li>
+                        <li><a href="/settings"><i class="pg-settings"></i> Settings</a>
+                        </li>
+                        <li class="bg-master-lighter">
+                            <a href="/logout" class="clearfix">
+                                <span class="pull-left">Logout</span>
+                                <span class="pull-right"><i class="pg-power"></i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END User Info-->
+        </div>
+    </div>
+    <!-- END HEADER -->
+    <!-- END PAGE HEADER WRAPPER -->
+
+    <!-- START PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrapper">
+        <!-- START PAGE CONTENT -->
+        <div class="content">
+            <!-- START JUMBOTRON -->
+            <div class="jumbotron" data-pages="parallax">
+                <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+                    <div class="inner">
+                        <!-- START BREADCRUMB -->
+                        <ul class="breadcrumb">
+                            <li>
+                                <p>FindYourDoctor</p>
+                            </li>
+                            <li><a class="active">Doctors Profiles</a>
+                            </li>
+                        </ul>
+                        <!-- END BREADCRUMB -->
+                    </div>
+                </div>
+            </div>
+            <!-- END JUMBOTRON -->
+            <!-- START CONTAINER FLUID -->
+            <!--<div class="container-fluid container-fixed-lg">-->
+            <!-- BEGIN PlACE PAGE CONTENT HERE -->
+
+            <!-- START CONTAINER FLUID -->
+            <div class="modal-header">
+                <h1 style="font-family:Georgia" id="modalTitle" class="modal-title text-center"><b>Welcome to our Doctors Profiles/Specialties</b></h1>
+                <p class="text-center"><b>Meet our doctors team below who will help you for any health problem! They look forward to meeting you soon!</b></p>
+            </div>
+            <div class="container-fluid container-fixed-lg bg-white" style="padding-top: 30px">
+                <div class="panel panel-transparent">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4 ">
+                                <div class="panel panel-default" style="background-color: #E6E6E6">
+                                    <div class="panel-heading separator" style="padding-top: 7px; padding-left: 20px">
+                                        <div class="profile-img-wrapper inline" >
+                                            <img width="35" height="35" data-src-retina="/assets/img/profile.png" data-src="/assets/img/profile.png" alt="" src="/assets/img/profile.png">
+                                            <div class="chat-status available">
+                                            </div>
+                                        </div>
+                                        <div class="panel-title pull-left" style="padding-top: 8px; padding-left: 10px; font-size: 15px">Dr Mark Spencer
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h3><span class="semi-bold">Mark</span> Specialises in:</h3>
+                                        <p>Dr Spencer specialises in dermatology, dermatopathology and urology problems. His past experience has been shaped by working in the NHS as a dermatologist for 10 years. The last year he joined our team and he is very excited and passionated about his new position.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="panel panel-transparent">
+                                    <div class="panel-heading separator" style="padding-top: 7px; padding-left: 20px">
+                                        <div class="profile-img-wrapper inline" >
+                                            <img width="35" height="35" data-src-retina="/assets/img/profile.png" data-src="/assets/img/profile.png" alt="" src="/assets/img/profile.png">
+                                            <div class="chat-status available">
+                                            </div>
+                                        </div>
+                                        <div class="panel-title pull-left" style="padding-top: 8px; padding-left: 10px; font-size: 15px">Dr Melanie You
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h3><span class="semi-bold">Melanie</span> Specialises in:</h3>
+                                        <p>Dr You specialises in anesthesiology, oncology and ophthalmology problems. Her past experience has been shaped by working in the NHS as a anesthesiologist for 7 years. The last 2 years she joined our team and she is very excited and passionated about her new position.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="panel panel-default bg-success">
+                                    <div class="panel-heading separator" style="padding-top: 7px; padding-left: 20px">
+                                        <div class="profile-img-wrapper inline" >
+                                            <img width="35" height="35" data-src-retina="/assets/img/profile.png" data-src="/assets/img/profile.png" alt="" src="/assets/img/profile.png">
+                                            <div class="chat-status available">
+                                            </div>
+                                        </div>
+                                        <div class="panel-title pull-left" style="padding-top: 8px; padding-left: 10px; font-size: 15px">Dr Jessica James
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h3><span class="semi-bold">Jessica</span> Specialises in:</h3>
+                                        <p class="text-black hint-text">Dr James specialises in rheumatology, anesthesiology and gastroenterology problems. Her past experience has been shaped by working in the NHS as a gastroenterology for 20 years. The last 6 months she joined our team and she is very excited and passionated about her new position.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CONTAINER FLUID -->
+            <!-- START CONTAINER FLUID -->
+            <div class="container-fluid container-fixed-lg" style="padding-top: 30px">
+                <div class="panel panel-transparent">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="panel panel-transparent">
+                                    <div class="panel-heading separator" style="padding-top: 7px; padding-left: 20px">
+                                        <div class="profile-img-wrapper inline" >
+                                            <img width="35" height="35" data-src-retina="/assets/img/profile.png" data-src="/assets/img/profile.png" alt="" src="/assets/img/profile.png">
+                                            <div class="chat-status available">
+                                            </div>
+                                        </div>
+                                        <div class="panel-title pull-left" style="padding-top: 8px; padding-left: 10px; font-size: 15px">Dr Maria Game
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h3><span class="semi-bold">Maria</span> Specialises in:</h3>
+                                        <p class="text-black hint-text">Dr Game is a pediatric who specialises also in otolaryngology and cardiology problems. Her past experience has been shaped by working in the NHS as a pediatric for 10 years. The last 9 months she joined our team and she is very excited and passionated about her new position.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="panel panel-default bg-success">
+                                    <div class="panel-heading separator" style="padding-top: 7px; padding-left: 20px">
+                                        <div class="profile-img-wrapper inline" >
+                                            <img width="35" height="35" data-src-retina="/assets/img/profile.png" data-src="/assets/img/profile.png" alt="" src="/assets/img/profile.png">
+                                            <div class="chat-status available">
+                                            </div>
+                                        </div>
+                                        <div class="panel-title pull-left" style="padding-top: 8px; padding-left: 10px; font-size: 15px">Dr Daniel Eight
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h3><span class="semi-bold">Daniel</span> Specialises in:</h3>
+                                        <p class="text-black hint-text">Dr Eight is a gynecologist who specialises also in obstetrics and psychiatric problems. His past experience has been shaped by working in his own company as a gynecologist for 19 years. The last 1 year he joined our team and he is looking forward to provide his services to all the customers.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="panel panel-default" style="background-color: #E6E6E6">
+                                    <div class="panel-heading separator" style="padding-top: 7px; padding-left: 20px">
+                                        <div class="profile-img-wrapper inline" >
+                                            <img width="35" height="35" data-src-retina="/assets/img/profile.png" data-src="/assets/img/profile.png" alt="" src="/assets/img/profile.png">
+                                            <div class="chat-status available">
+                                            </div>
+                                        </div>
+                                        <div class="panel-title pull-left" style="padding-top: 8px; padding-left: 10px; font-size: 15px">Dr David Sharp
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h3><span class="semi-bold">David</span> Specialises in:</h3>
+                                        <p class="text-black hint-text">Dr Sharp is a gastroenterologist who specialises also in endocrinology and orthopaedics problems. His past experience has been shaped by working in his own company as a gastroenterologist for 11 years. The last 2 years he joined our team and he is very excited about his new position.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CONTAINER FLUID -->
+            <!-- START CONTAINER FLUID -->
+            <div class="container-fluid container-fixed-lg bg-white" style="padding-top: 30px">
+                <div class="panel panel-transparent">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="panel panel-default bg-success">
+                                    <div class="panel-heading separator" style="padding-top: 7px; padding-left: 20px">
+                                        <div class="profile-img-wrapper inline" >
+                                            <img width="35" height="35" data-src-retina="/assets/img/profile.png" data-src="/assets/img/profile.png" alt="" src="/assets/img/profile.png">
+                                            <div class="chat-status available">
+                                            </div>
+                                        </div>
+                                        <div class="panel-title pull-left" style="padding-top: 8px; padding-left: 10px; font-size: 15px">Dr Bryan Dier
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h3><span class="semi-bold">Bryan</span> Specialises in:</h3>
+                                        <p class="text-black hint-text">Dr Dier specialises in hematology, oncology and nephrology problems. His past experience has been shaped by working in the NHS as a hematologis for 6 years. The last 2 years he joined our team and he is very excited and passionated about his new position.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 ">
+                                <div class="panel panel-default" style="background-color: #E6E6E6">
+                                    <div class="panel-heading separator" style="padding-top: 7px; padding-left: 20px">
+                                        <div class="profile-img-wrapper inline" >
+                                            <img width="35" height="35" data-src-retina="/assets/img/profile.png" data-src="/assets/img/profile.png" alt="" src="/assets/img/profile.png">
+                                            <div class="chat-status available">
+                                            </div>
+                                        </div>
+                                        <div class="panel-title pull-left" style="padding-top: 8px; padding-left: 10px; font-size: 15px">Dr Drake Brown
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h3><span class="semi-bold">Drake</span> Specialises in:</h3>
+                                        <p>Dr Brown is a pathologist who specialises also in pulmonology and urology problems. His past experience has been shaped by working in his own company as a pathologist for 7 years. The last year he joined our team and he is very excited and passionated about his new position.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="panel panel-transparent">
+                                    <div class="panel-heading separator" style="padding-top: 7px; padding-left: 20px">
+                                        <div class="profile-img-wrapper inline" >
+                                            <img width="35" height="35" data-src-retina="/assets/img/profile.png" data-src="/assets/img/profile.png" alt="" src="/assets/img/profile.png">
+                                            <div class="chat-status available">
+                                            </div>
+                                        </div>
+                                        <div class="panel-title pull-left" style="padding-top: 8px; padding-left: 10px; font-size: 15px">Dr Katerina Dooke
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h3><span class="semi-bold">Katerina</span> Specialises in:</h3>
+                                        <p>Dr Dooke is a cardiologist who specialises also in surgeries and infectious diseases. Her past experience has been shaped by working in the NHS as a cardiologist for 11 years. The last 6 months she joined our team and she is very excited and passionated about her new position.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CONTAINER FLUID -->
+
+
+            <!--<div class="modal-dialog modal-lg">-->
+                <!--<div class="modal-content-wrapper">-->
+                    <!--<div class="modal-content">-->
+                        <!--<div class="modal-header">-->
+                            <!--<h1 style="font-family:Georgia" id="modalTitle" class="modal-title text-center"><b>Welcome to our Doctors Profiles/Specialties</b></h1>-->
+                            <!--<p class="text-center"><b>Meet our doctors team below who will help you for any health problem! They look forward to meeting you soon!</b></p>-->
+                        <!--</div>-->
+                            <!--<div class="tab-pane padding-50 active slide-left">-->
+                                <!--<div class="row row-same-height">-->
+                                        <!--<div class="col-md-6 ">-->
+                                            <!--<div>-->
+                                                <!--<img src="/assets/img/profile.png" width="200" height="150" align="left">-->
+                                                <!--<div class="col-md-5">-->
+                                                    <!--<h5 style="color:blue;">Dr Mark Spencer</h5>-->
+                                                    <!--<ul>-->
+                                                        <!--<li>Dermatologist</li>-->
+                                                        <!--<li>Dermatopathologist</li>-->
+                                                        <!--<li>Urologist</li>-->
+                                                    <!--</ul>-->
+                                                    <!--<br><br><br><br>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<img src="/assets/img/profile.png" width="200" height="150" align="left">-->
+                                                <!--<div class="col-md-5">-->
+                                                    <!--<h5 style="color:blue;">Dr Jessica James</h5>-->
+                                                    <!--<ul>-->
+                                                        <!--<li>Rheumatology</li>-->
+                                                        <!--<li>Anesthesiology</li>-->
+                                                        <!--<li>Gastroenterology</li>-->
+                                                    <!--</ul>-->
+                                                    <!--<br><br><br><br>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<img src="/assets/img/profile.png" width="200" height="150" align="left">-->
+                                                <!--<div class="col-md-5">-->
+                                                    <!--<h5 style="color:blue;">Dr Daniel Eight</h5>-->
+                                                    <!--<ul>-->
+                                                        <!--<li>Obstetrics</li>-->
+                                                        <!--<li>Gynecology</li>-->
+                                                        <!--<li>Psychiatry</li>-->
+                                                    <!--</ul>-->
+                                                    <!--<br><br><br><br>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<img src="/assets/img/profile.png" width="200" height="150" align="left">-->
+                                                <!--<div class="col-md-5">-->
+                                                    <!--<h5 style="color:blue;">Dr Bryan Dier</h5>-->
+                                                    <!--<ul>-->
+                                                        <!--<li>Hematology</li>-->
+                                                        <!--<li>Oncology</li>-->
+                                                        <!--<li>Nephrology</li>-->
+                                                    <!--</ul>-->
+                                                    <!--<br><br><br><br>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                            <!--<div class="col-md-6">-->
+                                                <!--<div >-->
+                                                    <!--<img src="/assets/img/profile.png" width="200" height="150" align="left">-->
+                                                        <!--<div class="col-md-5">-->
+                                                            <!--<h5 style="color:blue;">Dr Melanie You</h5>-->
+                                                            <!--<ul>-->
+                                                                <!--<li>Anesthesiology</li>-->
+                                                                <!--<li>Oncology</li>-->
+                                                                <!--<li>Ophthalmology</li>-->
+                                                            <!--</ul>-->
+                                                            <!--<br><br><br><br>-->
+                                                        <!--</div>-->
+                                                        <!--<img src="/assets/img/profile.png" width="200" height="150" align="left">-->
+                                                        <!--<div class="col-md-5">-->
+                                                            <!--<h5 style="color:blue;">Dr Maria Game</h5>-->
+                                                            <!--<ul>-->
+                                                                <!--<li>Otolaryngology</li>-->
+                                                                <!--<li>Cardiology</li>-->
+                                                                <!--<li>Pediatrics</li>-->
+                                                            <!--</ul>-->
+                                                            <!--<br><br><br><br>-->
+                                                        <!--</div>-->
+                                                        <!--<img src="/assets/img/profile.png" width="200" height="150" align="left">-->
+                                                        <!--<div class="col-md-5">-->
+                                                            <!--<h5 style="color:blue;">Dr David Sharp</h5>-->
+                                                            <!--<ul>-->
+                                                                <!--<li>Endocrinology</li>-->
+                                                                <!--<li>Gastroenterology</li>-->
+                                                                <!--<li>Orthopaedics</li>-->
+                                                            <!--</ul>-->
+                                                            <!--<br><br><br><br>-->
+                                                        <!--</div>-->
+                                                        <!--<img src="/assets/img/profile.png" width="200" height="150" align="left">-->
+                                                        <!--<div class="col-md-5">-->
+                                                            <!--<h5 style="color:blue;">Dr Drake Brown</h5>-->
+                                                            <!--<ul>-->
+                                                                <!--<li>Pathology</li>-->
+                                                                <!--<li>Pulmonology</li>-->
+                                                                <!--<li>Urology</li>-->
+                                                            <!--</ul>-->
+                                                            <!--<br><br><br><br>-->
+                                                        <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--&lt;!&ndash;<div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<img src="/assets/img/background.jpg" width="200" height="150" align="left">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<img src="/assets/img/background.jpg" width="200" height="150" align="right">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<p>Dr Mark Spencer</p>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<ul>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<li>Coffee</li>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<li>Tea</li>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<li>Milk</li>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<br><br><br><br>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<img src="/assets/img/background.jpg" width="200" height="150" align="left">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<img src="/assets/img/background.jpg" width="200" height="150" align="right"><br><br><br><br>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<img src="/assets/img/background.jpg" width="200" height="150" align="left">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<img src="/assets/img/background.jpg" width="200" height="150" align="right"><br><br><br><br>&ndash;&gt;-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div>
+                <!-- END PAGE CONTENT -->
+                <!-- START FOOTER -->
+                <div class="container-fluid container-fixed-lg footer">
+                    <div class="copyright sm-text-center">
+                        <p class="small no-margin pull-left sm-pull-reset">
+                            <span class="hint-text">Copyright © 2016</span>
+                            <span class="font-montserrat">JStrouthou</span>.
+                            <span class="hint-text">All rights reserved.</span>
+                            </span>
+                        </p>
+                        <p class="small no-margin pull-right sm-pull-reset">
+                            <span class="sm-block"><a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
+                        </p>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <!-- END FOOTER -->
+            </div>
+            <!-- END PLACE PAGE CONTENT HERE -->
+            <!--</div>-->
+            <!-- END CONTAINER FLUID -->
+        </div>
+        <!-- END PAGE CONTENT -->
+        <!-- START FOOTER -->
+        <div class="container-fluid container-fixed-lg footer">
+            <div class="copyright sm-text-center">
+                <p class="small no-margin pull-left sm-pull-reset">
+                    <span class="hint-text">Copyright © 2016</span>
+                    <span class="font-montserrat">JStrouthou</span>.
+                    <span class="hint-text">All rights reserved.</span>
+                    </span>
+                </p>
+                <p class="small no-margin pull-right sm-pull-reset">
+                    <span class="sm-block"><a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
+                </p>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- END FOOTER -->
+    </div>
+    <!-- END PAGE CONTENT WRAPPER -->
+</div>
+</div>
+</div>
+
+<!--START QUICKVIEW -->
+<div id="quickview" class="quickview-wrapper" data-pages="quickview">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="#quickview-alerts" data-toggle="tab">Notifications</a>
+        </li>
+        <li class="active">
+            <a href="#quickview-chat" data-toggle="tab">Chat</a>
+        </li>
+    </ul>
+    <a class="btn-link quickview-toggle" data-toggle-element="#quickview" data-toggle="quickview"><i class="pg-close"></i></a>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <!-- BEGIN Alerts !-->
+        <div class="tab-pane fade no-padding" id="quickview-alerts">
+            <div class="view-port clearfix" id="alerts">
+                <!-- BEGIN Alerts View !-->
+                <div class="view bg-white">
+                    <!-- BEGIN View Header !-->
+                    <div class="navbar navbar-default navbar-sm">
+                        <div class="navbar-inner">
+                            <div class="view-heading">
+                                Notications
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END View Header !-->
+                    <!-- BEGIN Alert List !-->
+                    <div data-init-list-view="ioslist" class="list-view boreded no-top-border">
+                        <div class="list-view-group-container">
+                            <!-- BEGIN List Group Header!-->
+                            <div class="list-view-group-header text-uppercase">
+                                Calendar
+                            </div>
+                            <!-- END List Group Header!-->
+                            <ul>
+                                <!-- BEGIN List Group Item!-->
+                                <li class="alert-list">
+                                    <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
+                                    <a href="javascript:;" class="p-t-10 p-b-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
+                                        <p class="col-xs-height col-middle">
+                                            <span class="text-complete fs-10"><i class="fa fa-circle"></i></span>
+                                        </p>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12 overflow-ellipsis fs-12">
+                                            <span class="text-master link">Jame Smith commented on your appointment<br></span>
+                                            <span class="text-master">“Is it possible to exchange time?"</span>
+                                        </p>
+                                    </a>
+                                    <!-- END Alert Item!-->
+                                </li>
+                                <!-- END List Group Item!-->
+                                <!-- BEGIN List Group Item!-->
+                                <li class="alert-list">
+                                    <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
+                                    <a href="javascript:;" class="p-t-10 p-b-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
+                                        <p class="col-xs-height col-middle">
+                                            <span class="text-complete fs-10"><i class="fa fa-circle"></i></span>
+                                        </p>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12 overflow-ellipsis fs-12">
+                                            <span class="text-master link">Jame Smith ask for starting a chat <br> converation<br></span>
+                                            <span class="text-master">"Hello"</span>
+                                        </p>
+                                    </a>
+                                    <!-- END Alert Item!-->
+                                </li>
+                                <!-- END List Group Item!-->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- END Alert List !-->
+                </div>
+                <!-- EEND Alerts View !-->
+            </div>
+        </div>
+        <!-- END Alerts !-->
+        <div class="tab-pane fade in active no-padding" id="quickview-chat">
+            <div class="view-port clearfix" id="chat">
+                <div class="view bg-white">
+                    <!-- BEGIN View Header !-->
+                    <div class="navbar navbar-default">
+                        <div class="navbar-inner">
+                            <!-- BEGIN Header Controler !-->
+                            <a href="javascript:;" class="inline action p-l-10 link text-master" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
+                                <i class="pg-plus"></i>
+                            </a>
+                            <!-- END Header Controler !-->
+                            <div class="view-heading">
+                                Chat List
+                                <div class="fs-11">Show All</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END View Header !-->
+                    <div data-init-list-view="ioslist" class="list-view boreded no-top-border">
+                        <div class="list-view-group-container">
+                            <div class="list-view-group-header text-uppercase">a</div>
+                            <ul>
+                                <!-- BEGIN Chat User List Item  !-->
+                                <li class="chat-user-list clearfix">
+                                    <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">
+                        <span class="col-xs-height col-middle">
+                        <span class="thumbnail-wrapper d32 circular bg-success">
+                            <img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">
+                        </span>
+                        </span>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12">
+                                            <span class="text-master">Andys Strouthou</span>
+                                            <span class="block text-master hint-text fs-12">Hello </span>
+                                        </p>
+                                    </a>
+                                </li>
+                                <!-- END Chat User List Item  !-->
+                            </ul>
+                        </div>
+                        <div class="list-view-group-container">
+                            <div class="list-view-group-header text-uppercase">c</div>
+                            <ul>
+                                <!-- BEGIN Chat User List Item  !-->
+                                <li class="chat-user-list clearfix">
+                                    <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">
+                        <span class="col-xs-height col-middle">
+                        <span class="thumbnail-wrapper d32 circular bg-success">
+                            <img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">
+                        </span>
+                        </span>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12">
+                                            <span class="text-master">Chris Perez</span>
+                                            <span class="block text-master hint-text fs-12">Hello </span>
+                                        </p>
+                                    </a>
+                                </li>
+                                <!-- END Chat User List Item  !-->
+                            </ul>
+                        </div>
+                        <div class="list-view-group-container">
+                            <div class="list-view-group-header text-uppercase">d</div>
+                            <ul>
+                                <!-- BEGIN Chat User List Item  !-->
+                                <li class="chat-user-list clearfix">
+                                    <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">
+                        <span class="col-xs-height col-middle">
+                        <span class="thumbnail-wrapper d32 circular bg-success">
+                            <img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">
+                        </span>
+                        </span>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12">
+                                            <span class="text-master">Dr Danielle Fletcher</span>
+                                            <span class="block text-master hint-text fs-12">Hello doctor</span>
+                                        </p>
+                                    </a>
+                                </li>
+                                <!-- END Chat User List Item  !-->
+                                <li class="chat-user-list clearfix">
+                                    <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">
+                        <span class="col-xs-height col-middle">
+                        <span class="thumbnail-wrapper d32 circular bg-success">
+                            <img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">
+                        </span>
+                        </span>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12">
+                                            <span class="text-master">Dr Mark Stephens</span>
+                                            <span class="block text-master hint-text fs-12">Hello doctor</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- BEGIN Conversation View  !-->
+                <div class="view chat-view bg-white clearfix">
+                    <!-- BEGIN Header  !-->
+                    <div class="navbar navbar-default">
+                        <div class="navbar-inner">
+                            <a href="javascript:;" class="link text-master inline action p-l-10 p-r-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
+                                <i class="pg-arrow_left"></i>
+                            </a>
+                            <div class="view-heading">
+                                Demetris Strouthou
+                                <div class="fs-11 hint-text">Online</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Header  !-->
+                    <!-- BEGIN Conversation  !-->
+                    <div class="chat-inner" id="my-conversation">
+                        <!-- BEGIN From Me Message  !-->
+                        <div class="message clearfix">
+                            <div class="chat-bubble from-me">
+                                Hello
+                            </div>
+                        </div>
+                        <!-- END From Me Message  !-->
+                        <!-- BEGIN From Them Message  !-->
+                        <div class="message clearfix">
+                            <div class="profile-img-wrapper m-t-5 inline">
+                                <img class="col-top" width="30" height="30" src="assets/img/profiles/myself.jpg" alt="" data-src="assets/img/profiles/myself.jpg" data-src-retina="assets/img/profiles/myself.jpg">
+                            </div>
+                            <div class="chat-bubble from-them">
+                                Hey
+                            </div>
+                        </div>
+                        <!-- END From Them Message  !-->
+                        <!-- BEGIN From Me Message  !-->
+                        <div class="message clearfix">
+                            <div class="chat-bubble from-me">
+                                How are you?
+                            </div>
+                        </div>
+                        <!-- END From Me Message  !-->
+                        <!-- BEGIN From Me Message  !-->
+                        <div class="message clearfix">
+                            <div class="chat-bubble from-me">
+                                Hope you are ok
+                            </div>
+                        </div>
+                        <!-- END From Me Message  !-->
+                        <!-- BEGIN From Them Message  !-->
+                        <div class="message clearfix">
+                            <div class="profile-img-wrapper m-t-5 inline">
+                                <img class="col-top" width="30" height="30" src="assets/img/profiles/myself.jpg" alt="" data-src="assets/img/profiles/myself.jpg" data-src-retina="assets/img/profiles/myself.jpg">
+                            </div>
+                            <div class="chat-bubble from-them">
+                                Iam good thank you
+                            </div>
+                        </div>
+                        <!-- END From Them Message  !-->
+                    </div>
+                    <!-- BEGIN Conversation  !-->
+                    <!-- BEGIN Chat Input  !-->
+                    <div class="b-t b-grey bg-white clearfix p-l-10 p-r-10">
+                        <div class="row">
+                            <div class="col-xs-1 p-t-15">
+                                <a href="#" class="link text-master"><i class="fa fa-plus-circle"></i></a>
+                            </div>
+                            <div class="col-xs-8 no-padding">
+                                <input type="text" class="form-control chat-input" data-chat-input="" data-chat-conversation="#my-conversation" placeholder="Say something">
+                            </div>
+                            <div class="col-xs-2 link text-master m-l-10 m-t-15 p-l-10 b-l b-grey col-top">
+                                <a href="#" class="link text-master"><i class="pg-camera"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Chat Input  !-->
+                </div>
+                <!-- END Conversation View  !-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END QUICKVIEW-->
+
+<!-- END PAGE CONTAINER -->
+</body>
+</html>
+<!-- BEGIN VENDOR JS -->
+<script src="assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+<script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+<script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+<script src="assets/plugins/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+<script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/plugins/moment/moment.min.js"></script>
+<script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+<script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+<script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script type="text/javascript" src="assets/plugins/bootstrap-select2/select2.min.js"></script>
+<script type="text/javascript" src="assets/plugins/classie/classie.js"></script>
+<script src="assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
+<script src="assets/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-autonumeric/autoNumeric.js"></script>
+<script type="text/javascript" src="assets/plugins/dropzone/dropzone.min.js"></script>
+<script type="text/javascript" src="assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
+<script src="assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="assets/plugins/summernote/js/summernote.min.js" type="text/javascript"></script>
+<script src="assets/plugins/moment/moment.min.js"></script>
+<script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- END VENDOR JS -->
+<!-- BEGIN CORE TEMPLATE JS -->
+<script src="pages/js/pages.js" type="text/javascript"></script>
+<!-- END CORE TEMPLATE JS -->
+<!-- BEGIN PAGE LEVEL JS -->
+<script src="assets/js/scripts.js" type="text/javascript"></script>
+<script src="fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="../fullcalendarinitialize.js" type="text/javascript"></script>
+<script src="assets/js/form_wizard.js" type="text/javascript"></script>
+
+
+<!-- END PAGE LEVEL JS -->
+<script>
+
+
+</script>

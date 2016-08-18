@@ -1,0 +1,72 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>TheDoctors Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body {
+            padding-top:80px;
+            font-family: "Open Sans", sans-serif;
+            height: 100vh;
+            /*background: url("http://i.imgur.com/HgflTDf.jpg") 50% fixed;*/
+            background-size: cover;
+        }
+        @keyframes spinner {
+            0% {
+                transform: rotateZ(0deg);
+            }
+            100% {
+                transform: rotateZ(359deg);
+            }
+        }
+        * {
+            box-sizing: border-box;
+        }
+
+    </style>
+    <link type="text/css" rel="stylesheet" href="/assets/css/ust.css" />
+    <link rel="stylesheet" href="/assets/css/normalize.css">
+
+</head>
+<body>
+<!--<div class="container">-->
+    <!--<div class="jumbotron text-center">-->
+        <!--<h1><span class="fa fa-lock"></span> Welcome to TheDoctors Home</h1>-->
+
+        <!--<p>Login or Register with:</p>-->
+
+        <!--<a href="/login1" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>-->
+        <!--<a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>-->
+    <!--</div>-->
+<!--</div>-->
+<div class="headerx">
+</div>
+<div class="header">
+    <h1 align="center"> Welcome to your Doctor house</h1>
+</div>
+
+<div class="bodyx">
+    <div id="intro1" class="bodyx">FindYourDoctor helps you finding<br>solutions to many health problems.</div>
+    <div id="intro2" class="bodyx">Create an account</div>
+    <div id="img2" class="bodyx"><img src="bg.png"/></div>
+    <div id="intro3" class="bodyx">It's free and always will be.</div>
+    <form method="post" action="home11.php" >
+        <div id="form3" class="bodyx"><input placeholder="Firstname" type="text" id="namebox" name="name1" /><input placeholder="Lastname" type="text" id="namebox"/><br>
+            <input placeholder="Email" type="text" id="mailbox"/><br>
+            <input placeholder="Re-enter email" type="text" id="mailbox"/><br>
+            <input placeholder="Password" type="password" id="mailbox"/><br>
+            <input type="date" id="namebox"/><br><br>
+            <input type="radio" name="sex" value="male"/> Male  <input type="radio" name="sex" value="female"/> Female<br><br>
+            By clicking Create an account, you agree to our Terms.<br><br>
+            <input type="submit" id="button2" value="Signup"/>
+        </div>
+    </form>
+    <br>
+</div>
+
+
+
+</body>
+</html>

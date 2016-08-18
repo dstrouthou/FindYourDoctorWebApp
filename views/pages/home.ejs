@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>FindYourDoctor</title>
+    <% include ../partials/head %>
+    <link href="fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" media="screen" />
+
+
+    <style>
+
+        /*body {*/
+        /*margin-top: 40px;*/
+        /*text-align: center;*/
+        /*font-size: 14px;*/
+        /*font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;*/
+        /*}*/
+        .datepicker {z-index: 1151 !important;}
+        .timepicker {z-index: 1151 !important;}
+
+        #wrap {
+            width: 1100px;
+            margin: 0 auto;
+        }
+
+        #external-events {
+            float: left;
+            width: 150px;
+            padding: 0 10px;
+            border: 1px solid #ccc;
+            background: #eee;
+            text-align: left;
+        }
+
+        #external-events h4 {
+            font-size: 16px;
+            margin-top: 0;
+            padding-top: 1em;
+        }
+
+        #external-events .fc-event {
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        #external-events p {
+            margin: 1.5em 0;
+            font-size: 11px;
+            color: #666;
+        }
+
+        #external-events p input {
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        #calendar {
+            float: right;
+            width: 1150px;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+    </style>
+</head>
+<body class="fixed-header">
+<header>
+    <% include ../partials/header %>
+</header>
+
+<!-- BEGIN SIDEBPANEL-->
+<nav class="page-sidebar" data-pages="sidebar">
+    <!-- BEGIN SIDEBAR MENU TOP TRAY CONTENT-->
+    <div class="sidebar-overlay-slide from-top" id="appMenu">
+        <div class="row">
+            <div class="col-xs-6 no-padding">
+                <a href="#" class="p-l-40"><img src="assets/img/demo/social_app.svg" alt="socail">
+                </a>
+            </div>
+            <div class="col-xs-6 no-padding">
+                <a href="#" class="p-l-10"><img src="assets/img/demo/email_app.svg" alt="socail">
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 m-t-20 no-padding">
+                <a href="#" class="p-l-40"><img src="assets/img/demo/calendar_app.svg" alt="socail">
+                </a>
+            </div>
+            <div class="col-xs-6 m-t-20 no-padding">
+                <a href="#" class="p-l-10"><img src="assets/img/demo/add_more.svg" alt="socail">
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- END SIDEBAR MENU TOP TRAY CONTENT-->
+    <!-- BEGIN SIDEBAR MENU HEADER-->
+    <div class="sidebar-header" style="background-color: #D8D8D8" >
+        <img src="assets/img/dash_logo.png" alt="logo" class="brand" data-src="assets/img/dash_logo.png" data-src-retina="assets/img/dash_logo.png" width="180" height="35">
+    </div>
+    <!-- END SIDEBAR MENU HEADER-->
+    <!-- START SIDEBAR MENU -->
+    <div class="sidebar-menu" style="background-color: #0e90d2">
+        <!-- BEGIN SIDEBAR MENU ITEMS-->
+        <ul class="menu-items">
+            <li class="m-t-30 ">
+                <a href="home" class="detailed">
+                    <img src="assets/img/home_logo.png" alt="logo" class="brand" data-src="assets/img/home_logo.png" data-src-retina="assets/img/home_logo.png" width="80" height="20">
+                </a>
+                <span class="icon-thumbnail bg-success" style="background-color: #D8D8D8"><i class="pg-home"></i></span>
+            </li>
+            <li class="">
+                <a href="email" class="detailed">
+                    <img src="assets/img/email_logo.png" alt="logo" class="brand" data-src="assets/img/email_logo.png" data-src-retina="assets/img/email_logo.png" width="70" height="20">
+                </a>
+                <span class="icon-thumbnail"><i class="pg-mail"></i></span>
+            </li>
+            <li class="">
+                <a href="social">
+                    <img src="assets/img/social_logo.png" alt="logo" class="brand" data-src="assets/img/social_logo.png" data-src-retina="assets/img/social_logo.png" width="75" height="20">
+                </a>
+                <span class="icon-thumbnail"><i class="pg-social"></i></span>
+            </li>
+            <li class="">
+                <a href="calendar">
+                    <img src="assets/img/calendar_logo.png" alt="logo" class="brand" data-src="assets/img/calendar_logo.png" data-src-retina="assets/img/calendar_logo.png" width="100" height="20">
+                </a>
+                <span class="icon-thumbnail"><i class="pg-calender"></i></span>
+            </li>
+            <li class="">
+                <a href="settings">
+                    <img src="assets/img/doctors_logo.png" alt="logo" class="brand" data-src="assets/img/doctors_logo.png" data-src-retina="assets/img/doctors_logo.png" width="80" height="20">
+                </a>
+                <span class="icon-thumbnail"><i class="pg-settings"></i></span>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <!-- END SIDEBAR MENU -->
+</nav>
+<!-- END SIDEBAR -->
+<!-- END SIDEBPANEL-->
+
+<!-- START PAGE-CONTAINER -->
+<div class="page-container">
+    <!-- START PAGE HEADER WRAPPER -->
+    <!-- START HEADER -->
+    <div class="header">
+        <!-- START MOBILE CONTROLS -->
+        <!-- LEFT SIDE -->
+        <div class="pull-left full-height visible-sm visible-xs">
+            <!-- START ACTION BAR -->
+            <div class="sm-action-bar">
+                <a href="#" class="btn-link toggle-sidebar" data-toggle="sidebar">
+                    <span class="icon-set menu-hambuger"></span>
+                </a>
+            </div>
+            <!-- END ACTION BAR -->
+        </div>
+        <!-- RIGHT SIDE -->
+        <div class="pull-right full-height visible-sm visible-xs">
+            <!-- START ACTION BAR -->
+            <div class="sm-action-bar">
+                <a href="#" class="btn-link" data-toggle="quickview" data-toggle-element="#quickview">
+                    <span class="icon-set menu-hambuger-plus"></span>
+                </a>
+            </div>
+            <!-- END ACTION BAR -->
+        </div>
+        <!-- END MOBILE CONTROLS -->
+        <div class=" pull-left sm-table">
+            <div class="header-inner">
+                <div class="brand inline">
+                    <img src="assets/img/newlogo.png" alt="logo" data-src="assets/img/newlogo.png" data-src-retina="assets/img/newlogo.png" width="100" height="50">
+                </div>
+                <a class="search-link" data-toggle="search"><i class="pg-search"></i><input placeholder="Type anywhere to search..." class="bold no-border" style="font-size: 17px; width: 250px;"></input></a>
+            </div>
+        </div>
+        <div class=" pull-right">
+            <div class="header-inner">
+                <a href="#" class="btn-link icon-set menu-hambuger-plus m-l-20 sm-no-margin hidden-sm hidden-xs" data-toggle="quickview" data-toggle-element="#quickview"></a>
+            </div>
+        </div>
+        <div class=" pull-right">
+            <!-- START User Info-->
+            <div class="visible-lg visible-md m-t-10">
+                <div class="pull-left p-r-10 p-t-10 fs-16 font-heading">
+                    <span class="semi-bold"><%= user.fname%></span> <span class="text-master"><%= user.sname%></span>
+                </div>
+                <div class="dropdown pull-right">
+                    <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="thumbnail-wrapper d32 circular inline m-t-5">
+                <img src="assets/img/profiles/myself.jpg" alt="" data-src="assets/img/profiles/myself.jpg" data-src-retina="assets/img/profiles/myself.jpg" width="32" height="32">
+            </span>
+                    </button>
+                    <ul class="dropdown-menu profile-dropdown" role="menu">
+                        <li><a href="/home"><i class="pg-home"></i> Home</a>
+                        </li>
+                        <li><a href="/email"><i class="pg-mail"></i> Email</a>
+                        </li>
+                        <li><a href="/social"><i class="pg-social"></i> Social</a>
+                        </li>
+                        <li><a href="/calendar"><i class="pg-calender"></i> Calendar</a>
+                        </li>
+                        <li><a href="/settings"><i class="pg-settings"></i> Settings</a>
+                        </li>
+                        <li class="bg-master-lighter">
+                            <a href="/logout" class="clearfix">
+                                <span class="pull-left">Logout</span>
+                                <span class="pull-right"><i class="pg-power"></i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END User Info-->
+        </div>
+    </div>
+    <!-- END HEADER -->
+    <!-- END PAGE HEADER WRAPPER -->
+
+    <!-- START PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrapper">
+        <!-- START PAGE CONTENT -->
+        <div class="content">
+            <!-- START JUMBOTRON -->
+            <div class="jumbotron" data-pages="parallax">
+                <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+                    <div class="inner">
+                        <!-- START BREADCRUMB -->
+                        <ul class="breadcrumb">
+                            <li>
+                                <p>FindYourDoctor</p>
+                            </li>
+                            <li><a class="active" style="color: #0e90d2 ">Home</a>
+                            </li>
+                        </ul>
+                        <!-- END BREADCRUMB -->
+                    </div>
+                </div>
+            </div>
+            <!-- END JUMBOTRON -->
+            <!-- START CONTAINER FLUID -->
+            <!--<div class="container-fluid container-fixed-lg">-->
+                <!-- BEGIN PlACE PAGE CONTENT HERE -->
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content-wrapper">
+                    <div class="modal-content" style="height: auto">
+                        <div class="modal-header">
+                            <h1 style="font-family:Georgia" id="modalTitle" class="modal-title">My Appointments</h1>
+                        </div>
+                        <div id="rootwizard" class="m-t-10">
+                            <div class="tab-content">
+                                <div class="tab-pane padding-20 active slide-left" id="tab1">
+                                    <div class="row row-same-height">
+                                        <div class="col-md-4 b-r b-dashed b-grey sm-b-b">
+                                            <div class="padding-20 m-t-5">
+                                                <h2 style="font-family:Georgia">Hello <%= user.fname%> <%= user.sname%></h2>
+                                                <p>Your appointments are being listed on the right.</p>
+                                                <p class="small hint-text">Please give yourself some time before attending each appointment.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 padding-20 m-t-5" style="height: auto;margin-bottom: 0px;">
+                                            <table class="table table-condensed">
+                                                <thead>
+                                                <tr>
+                                                <th><center>Tittle</center></th>
+                                                <th><center>Date</center></th>
+                                                <th><center>Start Time</center></th>
+                                                    <th><center>End Time</center></th>
+                                                    <th><center>Description</center></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <% for (var i=0;i< app.length;i++){ %>
+                                                <tr>
+                                                    <td >
+                                                        <span class="m-l-10 font-montserrat fs-18 all-caps"><center><%= app[i].title %></center></span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="m-l-10 "><center><%= app[i].start %></center></span>
+
+                                                    </td>
+                                                    <td >
+                                                        <span><center><%= app[i].sttime %></center></span>
+                                                    </td>
+                                                    <td >
+                                                        <span><center><%= app[i].end %></center></span>
+                                                    </td>
+                                                    <td >
+                                                        <span><center><%= app[i].description %></center></span>
+                                                    </td>
+                                                </tr>
+                                                <%}%>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END PLACE PAGE CONTENT HERE -->
+            <!-- END CONTAINER FLUID -->
+        </div>
+        <!-- END PAGE CONTENT -->
+        <!-- START FOOTER -->
+        <div class="container-fluid container-fixed-lg footer">
+            <div class="copyright sm-text-center">
+                <p class="small no-margin pull-left sm-pull-reset">
+                    <span class="hint-text">Copyright © 2016</span>
+                    <span class="font-montserrat">JStrouthou</span>.
+                    <span class="hint-text">All rights reserved.</span>
+                    </span>
+                </p>
+                <p class="small no-margin pull-right sm-pull-reset">
+                    <span class="sm-block"><a href="#" data-toggle="modal" data-target="mymodal" class="m-l-10 m-r-10" id="terms">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
+                </p>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- END FOOTER -->
+    </div>
+
+    <!-- END PAGE CONTENT WRAPPER -->
+</div>
+</div>
+
+<div id="mymodal" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h1 style="font-family:Georgia" id="modalTitle" class="modal-title">Appointment Details</h1>
+                </div>
+                <div id="rootwizard" class="m-t-50">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs nav-tabs-linetriangle nav-tabs-separator nav-stack-sm">
+                        <li class="active">
+                            <a data-toggle="tab" href="#ntab1"><span>Patient Details</span></a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#ntab2"><span>Edit Appointment</span></a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#ntab3"><span>Summary</span></a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane padding-20 active slide-left" id="ntab1">
+                            <div class="row row-same-height">
+                                <!--<div class="col-md-5 b-r b-dashed b-grey sm-b-b">-->
+                                <div class="padding-30">
+                                    <div class="form-group-attached">
+                                        <label>Patient Name:</label>
+                                        <input id="npname" name="npname" type="text" class="form-control" >
+                                        <br>
+                                        <label >Patient Surname:</label>
+                                        <input id="npsurname" type="text" class="form-control">
+                                        <br>
+                                        <label for="textarea">Appointment Date:</label>
+                                        <div class="row clearfix">
+                                            <div class="col-sm-12">
+                                                <div id="appdate1" class="input-group date col-md-8" aria-hidden="true" >
+                                                    <input type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <label for="textarea">From:</label>
+                                        <br>
+                                        <div class="col-md-6 input-group bootstrap-timepicker timepicker">
+                                            <input id="appdatefrom1" type="text" class="form-control input-small">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                        <br>
+                                        <label for="textarea">To:</label>
+                                        <br>
+                                        <div class="col-md-6 input-group bootstrap-timepicker timepicker">
+                                            <input id="appdateto1" type="text" class="form-control input-small">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                        <br>
+                                        <div class="form-group-attached">
+                                            <div class="row clearfix">
+                                                <label for="textarea">Doctors Name:</label>
+                                                <input id="npsurname" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="form-group-attached">
+                                            <label for="textarea">Patient note for the doctor:</label>
+                                            <form action="demo_form.asp" method="get">
+                                                <textarea rows="4" cols="50"></textarea>
+                                            </form>
+                                            <br>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--</div>-->
+                                <!--<div class="col-md-7">-->
+                                <!--<div class="padding-30">-->
+                                <!--<div class="form-group-attached">-->
+                                <!--<div class="row clearfix">-->
+                                <!--<label for="textarea">Doctors Name:</label>-->
+                                <!--<input id="npsurname" type="text" class="form-control">-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--<br>-->
+
+                                <!--<div class="form-group-attached">-->
+                                <!--<label for="textarea">Patient note for the doctor:</label>-->
+                                <!--<form action="demo_form.asp" method="get">-->
+                                <!--<textarea rows="4" cols="50"></textarea>-->
+                                <!--</form>-->
+                                <!--<br>-->
+
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <div class="tab-pane slide-left padding-20" id="ntab2">
+                            <div class="row row-same-height">
+                                <!--<div class="col-md-5 b-r b-dashed b-grey ">-->
+                                <!--<div class="padding-30 m-t-50">-->
+                                <!--<h2 style="font-family:Georgia">Please describe your health problem:</h2>-->
+                                <!--<br>-->
+                                <!--<textarea rows="10" cols="35"></textarea>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-md-7">-->
+                                <div class="padding-30">
+                                    <div class="form-group-attached">
+                                        <label>New patient name:</label>
+                                        <input id="npname" type="text" class="form-control" value="">
+                                        <br>
+                                        <label>New patient surname:</label>
+                                        <input id="npsurname" type="text" class="form-control">
+                                        <br>
+                                        <label for="textarea">Appointment Date:</label>
+                                        <div class="row clearfix">
+                                            <div class="col-sm-12">
+                                                <div id="appdate1" class="input-group date col-md-8" aria-hidden="true" >
+                                                    <input type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <label for="textarea">From:</label>
+                                        <br>
+                                        <div class="col-md-6 input-group bootstrap-timepicker timepicker">
+                                            <input id="appdatefrom1" type="text" class="form-control input-small">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                        <br>
+                                        <label for="textarea">To:</label>
+                                        <br>
+                                        <div class="col-md-6 input-group bootstrap-timepicker timepicker">
+                                            <input id="appdateto1" type="text" class="form-control input-small">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-group-attached">
+                                            <div class="row clearfix">
+                                                <label for="textarea">Select Doctor:</label>
+                                                <br>
+                                                <!--<p>Select Doctor</p>-->
+                                                <!--<div class="dropdown col-md-7">-->
+                                                <button id="selectdoctor" class="dropdown col-md-4 btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Please select
+                                                    <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">Dr Andy Train</a></li>
+                                                    <li><a href="#">Dr Maria Larou</a></li>
+                                                </ul>
+                                                <!--</div>-->
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="form-group-attached">
+                                            <label for="textarea">Any note for the doctor?</label>
+                                            <!--<p>10. Have you ever been hospitalized or had a major operation?</p>-->
+                                            <form action="demo_form.asp" method="get">
+                                                <input type="checkbox" name="vehicle" value="Bike"> Yes<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> No<br>
+                                                <label>If yes please specify:</label> <br>
+                                                <textarea rows="4" cols="50"></textarea>
+                                            </form>
+                                            <br>
+
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <div class="tab-pane slide-left padding-20" id="ntab3">
+                            <h1 style="font-family:Georgia">Thank you.</h1>
+                            <p>Your information have been updated!</p>
+                        </div>
+                        <div class="padding-20 bg-white">
+                            <ul class="pager wizard">
+                                <li class="next">
+                                    <button class="btn btn-primary btn-cons pull-right" type="button">
+                                        <span>Next</span>
+                                    </button>
+                                </li>
+                                <li class="next finish hidden">
+                                    <button class="btn btn-primary btn-cons pull-right" type="button" data-dismiss="modal">
+                                        <span>Submit</span>
+                                    </button>
+                                </li>
+                                <li class="previous first hidden">
+                                    <button class="btn btn-default btn-cons pull-right" type="button">
+                                        <span>First</span>
+                                    </button>
+                                </li>
+                                <li class="previous">
+                                    <button class="btn btn-default btn-cons pull-right" type="button">
+                                        <span>Previous</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+<!--START QUICKVIEW -->
+<div id="quickview" class="quickview-wrapper" data-pages="quickview">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="#quickview-alerts" data-toggle="tab">Notifications</a>
+        </li>
+        <li class="active">
+            <a href="#quickview-chat" data-toggle="tab">Chat</a>
+        </li>
+    </ul>
+    <a class="btn-link quickview-toggle" data-toggle-element="#quickview" data-toggle="quickview"><i class="pg-close"></i></a>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <!-- BEGIN Alerts !-->
+        <div class="tab-pane fade no-padding" id="quickview-alerts">
+            <div class="view-port clearfix" id="alerts">
+                <!-- BEGIN Alerts View !-->
+                <div class="view bg-white">
+                    <!-- BEGIN View Header !-->
+                    <div class="navbar navbar-default navbar-sm">
+                        <div class="navbar-inner">
+                            <div class="view-heading">
+                                Notications
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END View Header !-->
+                    <!-- BEGIN Alert List !-->
+                    <div data-init-list-view="ioslist" class="list-view boreded no-top-border">
+                        <div class="list-view-group-container">
+                            <!-- BEGIN List Group Header!-->
+                            <div class="list-view-group-header text-uppercase">
+                                Calendar
+                            </div>
+                            <!-- END List Group Header!-->
+                            <ul>
+                                <!-- BEGIN List Group Item!-->
+                                <li class="alert-list">
+                                    <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
+                                    <a href="javascript:;" class="p-t-10 p-b-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
+                                        <p class="col-xs-height col-middle">
+                                            <span class="text-complete fs-10"><i class="fa fa-circle"></i></span>
+                                        </p>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12 overflow-ellipsis fs-12">
+                                            <span class="text-master link">Jame Smith commented on your appointment<br></span>
+                                            <span class="text-master">“Is it possible to exchange time?"</span>
+                                        </p>
+                                    </a>
+                                    <!-- END Alert Item!-->
+                                </li>
+                                <!-- END List Group Item!-->
+                                <!-- BEGIN List Group Item!-->
+                                <li class="alert-list">
+                                    <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
+                                    <a href="javascript:;" class="p-t-10 p-b-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
+                                        <p class="col-xs-height col-middle">
+                                            <span class="text-complete fs-10"><i class="fa fa-circle"></i></span>
+                                        </p>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12 overflow-ellipsis fs-12">
+                                            <span class="text-master link">Jame Smith ask for starting a chat <br> converation<br></span>
+                                            <span class="text-master">"Hello"</span>
+                                        </p>
+                                    </a>
+                                    <!-- END Alert Item!-->
+                                </li>
+                                <!-- END List Group Item!-->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- END Alert List !-->
+                </div>
+                <!-- EEND Alerts View !-->
+            </div>
+        </div>
+        <!-- END Alerts !-->
+        <div class="tab-pane fade in active no-padding" id="quickview-chat">
+            <div class="view-port clearfix" id="chat">
+                <div class="view bg-white">
+                    <!-- BEGIN View Header !-->
+                    <div class="navbar navbar-default">
+                        <div class="navbar-inner">
+                            <!-- BEGIN Header Controler !-->
+                            <a href="javascript:;" class="inline action p-l-10 link text-master" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
+                                <i class="pg-plus"></i>
+                            </a>
+                            <!-- END Header Controler !-->
+                            <div class="view-heading">
+                                Chat List
+                                <div class="fs-11">Show All</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END View Header !-->
+                    <div data-init-list-view="ioslist" class="list-view boreded no-top-border">
+                        <div class="list-view-group-container">
+                            <div class="list-view-group-header text-uppercase">a</div>
+                            <ul>
+                                <!-- BEGIN Chat User List Item  !-->
+                                <li class="chat-user-list clearfix">
+                                    <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">
+                        <span class="col-xs-height col-middle">
+                        <span class="thumbnail-wrapper d32 circular bg-success">
+                            <img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">
+                        </span>
+                        </span>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12">
+                                            <span class="text-master">Andys Strouthou</span>
+                                            <span class="block text-master hint-text fs-12">Hello </span>
+                                        </p>
+                                    </a>
+                                </li>
+                                <!-- END Chat User List Item  !-->
+                            </ul>
+                        </div>
+                        <div class="list-view-group-container">
+                            <div class="list-view-group-header text-uppercase">c</div>
+                            <ul>
+                                <!-- BEGIN Chat User List Item  !-->
+                                <li class="chat-user-list clearfix">
+                                    <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">
+                        <span class="col-xs-height col-middle">
+                        <span class="thumbnail-wrapper d32 circular bg-success">
+                            <img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">
+                        </span>
+                        </span>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12">
+                                            <span class="text-master">Chris Perez</span>
+                                            <span class="block text-master hint-text fs-12">Hello </span>
+                                        </p>
+                                    </a>
+                                </li>
+                                <!-- END Chat User List Item  !-->
+                            </ul>
+                        </div>
+                        <div class="list-view-group-container">
+                            <div class="list-view-group-header text-uppercase">d</div>
+                            <ul>
+                                <!-- BEGIN Chat User List Item  !-->
+                                <li class="chat-user-list clearfix">
+                                    <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">
+                        <span class="col-xs-height col-middle">
+                        <span class="thumbnail-wrapper d32 circular bg-success">
+                            <img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">
+                        </span>
+                        </span>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12">
+                                            <span class="text-master">Dr Danielle Fletcher</span>
+                                            <span class="block text-master hint-text fs-12">Hello doctor</span>
+                                        </p>
+                                    </a>
+                                </li>
+                                <!-- END Chat User List Item  !-->
+                                <li class="chat-user-list clearfix">
+                                    <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">
+                        <span class="col-xs-height col-middle">
+                        <span class="thumbnail-wrapper d32 circular bg-success">
+                            <img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">
+                        </span>
+                        </span>
+                                        <p class="p-l-10 col-xs-height col-middle col-xs-12">
+                                            <span class="text-master">Dr Mark Stephens</span>
+                                            <span class="block text-master hint-text fs-12">Hello doctor</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- BEGIN Conversation View  !-->
+                <div class="view chat-view bg-white clearfix">
+                    <!-- BEGIN Header  !-->
+                    <div class="navbar navbar-default">
+                        <div class="navbar-inner">
+                            <a href="javascript:;" class="link text-master inline action p-l-10 p-r-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
+                                <i class="pg-arrow_left"></i>
+                            </a>
+                            <div class="view-heading">
+                                Demetris Strouthou
+                                <div class="fs-11 hint-text">Online</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Header  !-->
+                    <!-- BEGIN Conversation  !-->
+                    <div class="chat-inner" id="my-conversation">
+                        <!-- BEGIN From Me Message  !-->
+                        <div class="message clearfix">
+                            <div class="chat-bubble from-me">
+                                Hello
+                            </div>
+                        </div>
+                        <!-- END From Me Message  !-->
+                        <!-- BEGIN From Them Message  !-->
+                        <div class="message clearfix">
+                            <div class="profile-img-wrapper m-t-5 inline">
+                                <img class="col-top" width="30" height="30" src="assets/img/profiles/myself.jpg" alt="" data-src="assets/img/profiles/myself.jpg" data-src-retina="assets/img/profiles/myself.jpg">
+                            </div>
+                            <div class="chat-bubble from-them">
+                                Hey
+                            </div>
+                        </div>
+                        <!-- END From Them Message  !-->
+                        <!-- BEGIN From Me Message  !-->
+                        <div class="message clearfix">
+                            <div class="chat-bubble from-me">
+                                How are you?
+                            </div>
+                        </div>
+                        <!-- END From Me Message  !-->
+                        <!-- BEGIN From Me Message  !-->
+                        <div class="message clearfix">
+                            <div class="chat-bubble from-me">
+                                Hope you are ok
+                            </div>
+                        </div>
+                        <!-- END From Me Message  !-->
+                        <!-- BEGIN From Them Message  !-->
+                        <div class="message clearfix">
+                            <div class="profile-img-wrapper m-t-5 inline">
+                                <img class="col-top" width="30" height="30" src="assets/img/profiles/myself.jpg" alt="" data-src="assets/img/profiles/myself.jpg" data-src-retina="assets/img/profiles/myself.jpg">
+                            </div>
+                            <div class="chat-bubble from-them">
+                                Iam good thank you
+                            </div>
+                        </div>
+                        <!-- END From Them Message  !-->
+                    </div>
+                    <!-- BEGIN Conversation  !-->
+                    <!-- BEGIN Chat Input  !-->
+                    <div class="b-t b-grey bg-white clearfix p-l-10 p-r-10">
+                        <div class="row">
+                            <div class="col-xs-1 p-t-15">
+                                <a href="#" class="link text-master"><i class="fa fa-plus-circle"></i></a>
+                            </div>
+                            <div class="col-xs-8 no-padding">
+                                <input type="text" class="form-control chat-input" data-chat-input="" data-chat-conversation="#my-conversation" placeholder="Say something">
+                            </div>
+                            <div class="col-xs-2 link text-master m-l-10 m-t-15 p-l-10 b-l b-grey col-top">
+                                <a href="#" class="link text-master"><i class="pg-camera"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Chat Input  !-->
+                </div>
+                <!-- END Conversation View  !-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END QUICKVIEW-->
+<!-- END PAGE CONTAINER -->
+
+</body>
+</html>
+<!-- BEGIN VENDOR JS -->
+<script>
+    $(document).ready(function(){
+        $("#terms").click(function(){
+            $("#mymodal").modal('show');
+        });
+    });
+</script>
+<script src="assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+<script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+<script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+<script src="assets/plugins/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+<script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/plugins/moment/moment.min.js"></script>
+<script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+<script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+<script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script type="text/javascript" src="assets/plugins/bootstrap-select2/select2.min.js"></script>
+<script type="text/javascript" src="assets/plugins/classie/classie.js"></script>
+<script src="assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
+<script src="assets/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-autonumeric/autoNumeric.js"></script>
+<script type="text/javascript" src="assets/plugins/dropzone/dropzone.min.js"></script>
+<script type="text/javascript" src="assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
+<script src="assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="assets/plugins/summernote/js/summernote.min.js" type="text/javascript"></script>
+<script src="assets/plugins/moment/moment.min.js"></script>
+<script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+<script src="assets/plugins/jquery-menuclipper/jquery.menuclipper.js"></script>
+<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- END VENDOR JS -->
+<!-- BEGIN CORE TEMPLATE JS -->
+<script src="pages/js/pages.js" type="text/javascript"></script>
+<!-- END CORE TEMPLATE JS -->
+<!-- BEGIN PAGE LEVEL JS -->
+<script src="assets/js/scripts.js" type="text/javascript"></script>
+<script src="fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="../fullcalendarinitialize.js" type="text/javascript"></script>
+<script src="assets/js/form_wizard.js" type="text/javascript"></script>
+
+
+<!-- END PAGE LEVEL JS -->
+<script>
+
+
+</script>
