@@ -64,13 +64,13 @@
                 <form id="form-register" class="p-t-15" role="form" action="/signup" method="post" >
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="form-group form-group-default">
+                            <div class="form-group form-group-default required">
                                 <label>First Name</label>
                                 <input type="text" name="fname" placeholder="First Name" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group form-group-default">
+                            <div class="form-group form-group-default required">
                                 <label>Last Name</label>
                                 <input type="text" name="sname" placeholder="Last Name" class="form-control" required>
                             </div>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="form-group form-group-default">
+                            <div class="form-group form-group-default required">
                                 <label>Email</label>
                                 <input type="email" name="email" placeholder="Email" class="form-control" required>
                             </div>
@@ -86,7 +86,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="form-group form-group-default">
+                            <div class="form-group form-group-default required">
                                 <label>Username</label>
                                 <input type="text" name="username" placeholder="Username" class="form-control" required>
                             </div>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="form-group form-group-default">
+                            <div class="form-group form-group-default required">
                                 <label>Password</label>
                                 <input type="password" name="password" placeholder="Password" class="form-control" required>
                             </div>
@@ -102,14 +102,14 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="form-group form-group-default">
+                            <div class="form-group form-group-default required">
                                 <input type="text" name="dateofbirth" id="appdate1" placeholder="Date of Birth" class="form-control" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group-default-select2" required>
-                                    <select class="full-width" data-placeholder="Select your gender" data-init-plugin="select2" name="selectsex" id="selectsex">
+                                <div class="form-group-default-select2 required">
+                                    <select class="full-width" data-placeholder="Select your gender" data-init-plugin="select2" name="selectsex" id="selectsex" required>
                                         <option value="">Select your gender</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
@@ -153,6 +153,7 @@
 <!-- END CORE TEMPLATE JS -->
 <!-- BEGIN PAGE LEVEL JS -->
 <script src="assets/js/scripts.js" type="text/javascript"></script>
+
 <!-- END PAGE LEVEL JS -->
 
 </body>
