@@ -121,9 +121,9 @@
             </li>
             <li class="">
                 <a href="email" class="detailed">
-                    <img src="assets/img/email_logo.png" alt="logo" class="brand" data-src="assets/img/email_logo.png" data-src-retina="assets/img/email_logo.png" width="70" height="20">
+                    <img src="assets/img/notifications.png" alt="logo" class="brand" data-src="assets/img/notifications.png" data-src-retina="assets/img/notifications.png" width="150" height="20">
                 </a>
-                <span class="icon-thumbnail"><i class="pg-mail"></i></span>
+                <span class="icon-thumbnail"><i class="glyphicon glyphicon-exclamation-sign"><%=notif.length%></i></span>
             </li>
             <li class="">
                 <a href="social">
@@ -141,7 +141,7 @@
                 <a href="settings">
                     <img src="assets/img/doctors_logo.png" alt="logo" class="brand" data-src="assets/img/doctors_logo.png" data-src-retina="assets/img/doctors_logo.png" width="80" height="20">
                 </a>
-                <span class="icon-thumbnail"><i class="pg-settings"></i></span>
+                <span class="icon-thumbnail"><i class="glyphicon glyphicon-user"></i></span>
             </li>
         </ul>
         <div class="clearfix"></div>
@@ -183,17 +183,31 @@
                 <div class="brand inline">
                     <img src="assets/img/newlogo.png" alt="logo" data-src="assets/img/newlogo.png" data-src-retina="assets/img/newlogo.png" width="100" height="50">
                 </div>
-                <a class="search-link" data-toggle="search"><i class="pg-search"></i><input placeholder="Type anywhere to search..." class="bold no-border" style="font-size: 17px; width: 250px;"></input></a>
+
+                <ul class="notification-list no-margin hidden-sm hidden-xs b-grey b-l b-r no-style p-l-30 p-r-20">
+                    <li class="p-r-15 inline">
+                        <div class="dropdown">
+                            <a href="/helper" id="notification-center" class="glyphicon glyphicon-user" > Appointment Helper
+                            </a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class=" pull-right">
-            <div class="header-inner">
-                <a href="#" class="btn-link icon-set menu-hambuger-plus m-l-20 sm-no-margin hidden-sm hidden-xs" data-toggle="quickview" data-toggle-element="#quickview"></a>
-            </div>
-        </div>
+        <!--<div class=" pull-right">-->
+            <!--<div class="header-inner">-->
+                <!--<a href="#" class="btn-link icon-set menu-hambuger-plus m-l-20 sm-no-margin hidden-sm hidden-xs" data-toggle="quickview" data-toggle-element="#quickview"></a>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+
+
         <div class=" pull-right">
             <!-- START User Info-->
             <div class="visible-lg visible-md m-t-10">
+
+
                 <div class="pull-left p-r-10 p-t-10 fs-16 font-heading">
                     <span class="semi-bold"><%= user.fname%></span> <span class="text-master"><%= user.sname%></span>
                 </div>
@@ -204,15 +218,9 @@
             </span>
                     </button>
                     <ul class="dropdown-menu profile-dropdown" role="menu">
-                        <li><a href="/home"><i class="pg-home"></i> Home</a>
-                        </li>
-                        <li><a href="/email"><i class="pg-mail"></i> Email</a>
-                        </li>
-                        <li><a href="/social"><i class="pg-social"></i> Social</a>
-                        </li>
-                        <li><a href="/calendar"><i class="pg-calender"></i> Calendar</a>
-                        </li>
-                        <li><a href="/settings"><i class="pg-settings"></i> Settings</a>
+                        <li>
+                            <a><i class="glyphicon glyphicon-user"></i> <%= user.fname%> <%= user.sname%></a>
+                            <a><i class="pg-mail"></i> <%= user.email%></a>
                         </li>
                         <li class="bg-master-lighter">
                             <a href="/logout" class="clearfix">
@@ -257,26 +265,31 @@
                 <div class="modal-content-wrapper">
                     <div class="modal-content" style="height: auto">
                         <div class="modal-header">
-                            <h1 style="font-family:Georgia" id="modalTitle" class="modal-title">My Appointments</h1>
+                            <h1 style="font-family:Georgia" id="modalTitle" class="modal-title"><center>My Appointments</center></h1>
                         </div>
                         <div id="rootwizard" class="m-t-10">
                             <div class="tab-content">
-                                <div class="tab-pane padding-20 active slide-left" id="tab1">
+                                <h2 style="font-family:Georgia"><center>Hello <%= user.fname%> <%= user.sname%>...</center></h2>
+                                <p><center>Your appointments are being listed below.</center></p>
+                                <p class="small hint-text"><center>Please give yourself some time before attending each appointment.</center></p>
+                                <div class="tab-pane active slide-left" id="tab1" style="padding-top: 1px; padding-left: 20px; padding-right: 20px; padding-bottom: 20px;">
                                     <div class="row row-same-height">
-                                        <div class="col-md-4 b-r b-dashed b-grey sm-b-b">
-                                            <div class="padding-20 m-t-5">
-                                                <h2 style="font-family:Georgia">Hello <%= user.fname%> <%= user.sname%></h2>
-                                                <p>Your appointments are being listed on the right.</p>
-                                                <p class="small hint-text">Please give yourself some time before attending each appointment.</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 padding-20 m-t-5" style="height: auto;margin-bottom: 0px;">
+                                        <!--<div class="col-md-4 b-r b-dashed b-grey sm-b-b">-->
+                                            <!--<div class="padding-20 m-t-5">-->
+                                                <!--<h2 style="font-family:Georgia">Hello <%= user.fname%> <%= user.sname%></h2>-->
+                                                <!--<p>Your appointments are being listed on the right.</p>-->
+                                                <!--<p class="small hint-text">Please give yourself some time before attending each appointment.</p>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <div class="col-md-12 padding-20 m-t-5" style="height: auto;margin-bottom: 0px;">
                                             <table class="table table-condensed">
                                                 <thead>
                                                 <tr>
                                                 <th><center>Tittle</center></th>
-                                                <th><center>Date</center></th>
-                                                <th><center>Start Time</center></th>
+                                                    <th><center>Name</center></th>
+                                                    <th><center>Surname</center></th>
+                                                    <th><center>Date</center></th>
+                                                    <th><center>Start Time</center></th>
                                                     <th><center>End Time</center></th>
                                                     <th><center>Description</center></th>
                                                 </tr>
@@ -286,6 +299,12 @@
                                                 <tr>
                                                     <td >
                                                         <span class="m-l-10 font-montserrat fs-18 all-caps"><center><%= app[i].title %></center></span>
+                                                    </td>
+                                                    <td >
+                                                        <span class="m-l-10 font-montserrat fs-18 all-caps"><center><%= app[i].name %></center></span>
+                                                    </td>
+                                                    <td >
+                                                        <span class="m-l-10 font-montserrat fs-18 all-caps"><center><%= app[i].surname %></center></span>
                                                     </td>
                                                     <td>
                                                         <span class="m-l-10 "><center><%= app[i].start %></center></span>
@@ -326,7 +345,7 @@
                     </span>
                 </p>
                 <p class="small no-margin pull-right sm-pull-reset">
-                    <span class="sm-block"><a href="#" data-toggle="modal" data-target="mymodal" class="m-l-10 m-r-10" id="terms">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
+                    <span class="sm-block"><a data-target="#TermofuseModal" data-toggle="modal" href="#TermofuseModal" class="m-l-10 m-r-10">Terms of use</a> | <a data-target="#PrivacyPolicyModal" data-toggle="modal" href="#PrivacyPolicyModal" class="m-l-10">Privacy Policy</a></span>
                 </p>
 
                 <div class="clearfix"></div>
@@ -552,260 +571,124 @@
 </div>
 
 
-
-<!--START QUICKVIEW -->
-<div id="quickview" class="quickview-wrapper" data-pages="quickview">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs">
-        <li>
-            <a href="#quickview-alerts" data-toggle="tab">Notifications</a>
-        </li>
-        <!--<li class="active">-->
-            <!--<a href="#quickview-chat" data-toggle="tab">Chat</a>-->
-        <!--</li>-->
-    </ul>
-    <a class="btn-link quickview-toggle" data-toggle-element="#quickview" data-toggle="quickview"><i class="pg-close"></i></a>
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <!-- BEGIN Alerts !-->
-        <div class="tab-pane fade no-padding" id="quickview-alerts">
-            <div class="view-port clearfix" id="alerts">
-                <!-- BEGIN Alerts View !-->
-                <div class="view bg-white">
-                    <!-- BEGIN View Header !-->
-                    <div class="navbar navbar-default navbar-sm">
-                        <div class="navbar-inner">
-                            <div class="view-heading">
-                                Notifications
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END View Header !-->
-                    <!-- BEGIN Alert List !-->
-                    <div data-init-list-view="ioslist" class="list-view boreded no-top-border">
-                        <div class="list-view-group-container">
-                            <!-- BEGIN List Group Header!-->
-                            <div class="list-view-group-header text-uppercase">
-                                Calendar
-                            </div>
-                            <!-- END List Group Header!-->
-                            <ul>
-                                <!-- BEGIN List Group Item!-->
-                                <li class="alert-list">
-                                    <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
-                                    <a href="javascript:;" class="p-t-10 p-b-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
-                                        <p class="col-xs-height col-middle">
-                                            <span class="text-complete fs-10"><i class="fa fa-circle"></i></span>
-                                        </p>
-                                        <p class="p-l-10 col-xs-height col-middle col-xs-12 overflow-ellipsis fs-12">
-                                            <span class="text-master link">Jame Smith commented on your appointment<br></span>
-                                            <span class="text-master">“Is it possible to exchange time?"</span>
-                                        </p>
-                                    </a>
-                                    <!-- END Alert Item!-->
-                                </li>
-                                <!-- END List Group Item!-->
-                                <!-- BEGIN List Group Item!-->
-                                <li class="alert-list">
-                                    <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
-                                    <a href="javascript:;" class="p-t-10 p-b-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
-                                        <p class="col-xs-height col-middle">
-                                            <span class="text-complete fs-10"><i class="fa fa-circle"></i></span>
-                                        </p>
-                                        <p class="p-l-10 col-xs-height col-middle col-xs-12 overflow-ellipsis fs-12">
-                                            <span class="text-master link">Jame Smith ask for starting a chat <br> converation<br></span>
-                                            <span class="text-master">"Hello"</span>
-                                        </p>
-                                    </a>
-                                    <!-- END Alert Item!-->
-                                </li>
-                                <!-- END List Group Item!-->
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- END Alert List !-->
+<div id="TermofuseModal" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h1 style="font-family:Georgia" id="modalTitle" class="modal-title">Terms of Use</h1><br>
                 </div>
-                <!-- EEND Alerts View !-->
+                <div class="modal-body" style="padding-left: 100px">
+                    <br>
+
+                </div>
             </div>
         </div>
-        <!-- END Alerts !-->
-        <!--<div class="tab-pane fade in active no-padding" id="quickview-chat">-->
-            <!--<div class="view-port clearfix" id="chat">-->
+    </div>
+</div>
+
+<div id="PrivacyPolicyModal" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h1 style="font-family:Georgia" id="modalTitle" class="modal-title">Privacy Policy</h1><br>
+                </div>
+                <div class="modal-body" style="padding-left: 100px">
+                    <br>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--&lt;!&ndash;START QUICKVIEW &ndash;&gt;-->
+<!--<div id="quickview" class="quickview-wrapper" data-pages="quickview">-->
+    <!--&lt;!&ndash; Nav tabs &ndash;&gt;-->
+    <!--<ul class="nav nav-tabs">-->
+        <!--<li>-->
+            <!--<a href="#quickview-alerts" data-toggle="tab">Notifications</a>-->
+        <!--</li>-->
+        <!--&lt;!&ndash;<li class="active">&ndash;&gt;-->
+            <!--&lt;!&ndash;<a href="#quickview-chat" data-toggle="tab">Chat</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--</ul>-->
+    <!--<a class="btn-link quickview-toggle" data-toggle-element="#quickview" data-toggle="quickview"><i class="pg-close"></i></a>-->
+    <!--&lt;!&ndash; Tab panes &ndash;&gt;-->
+    <!--<div class="tab-content">-->
+        <!--&lt;!&ndash; BEGIN Alerts !&ndash;&gt;-->
+        <!--<div class="tab-pane fade no-padding" id="quickview-alerts">-->
+            <!--<div class="view-port clearfix" id="alerts">-->
+                <!--&lt;!&ndash; BEGIN Alerts View !&ndash;&gt;-->
                 <!--<div class="view bg-white">-->
                     <!--&lt;!&ndash; BEGIN View Header !&ndash;&gt;-->
-                    <!--<div class="navbar navbar-default">-->
+                    <!--<div class="navbar navbar-default navbar-sm">-->
                         <!--<div class="navbar-inner">-->
-                            <!--&lt;!&ndash; BEGIN Header Controler !&ndash;&gt;-->
-                            <!--<a href="javascript:;" class="inline action p-l-10 link text-master" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">-->
-                                <!--<i class="pg-plus"></i>-->
-                            <!--</a>-->
-                            <!--&lt;!&ndash; END Header Controler !&ndash;&gt;-->
                             <!--<div class="view-heading">-->
-                                <!--Chat List-->
-                                <!--<div class="fs-11">Show All</div>-->
+                                <!--Notifications-->
                             <!--</div>-->
                         <!--</div>-->
                     <!--</div>-->
                     <!--&lt;!&ndash; END View Header !&ndash;&gt;-->
+                    <!--&lt;!&ndash; BEGIN Alert List !&ndash;&gt;-->
                     <!--<div data-init-list-view="ioslist" class="list-view boreded no-top-border">-->
                         <!--<div class="list-view-group-container">-->
-                            <!--<div class="list-view-group-header text-uppercase">a</div>-->
+                            <!--&lt;!&ndash; BEGIN List Group Header!&ndash;&gt;-->
+                            <!--<div class="list-view-group-header text-uppercase">-->
+                                <!--Calendar-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; END List Group Header!&ndash;&gt;-->
                             <!--<ul>-->
-                                <!--&lt;!&ndash; BEGIN Chat User List Item  !&ndash;&gt;-->
-                                <!--<li class="chat-user-list clearfix">-->
-                                    <!--<a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">-->
-                        <!--<span class="col-xs-height col-middle">-->
-                        <!--<span class="thumbnail-wrapper d32 circular bg-success">-->
-                            <!--<img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">-->
-                        <!--</span>-->
-                        <!--</span>-->
-                                        <!--<p class="p-l-10 col-xs-height col-middle col-xs-12">-->
-                                            <!--<span class="text-master">Andys Strouthou</span>-->
-                                            <!--<span class="block text-master hint-text fs-12">Hello </span>-->
+                                <!--&lt;!&ndash; BEGIN List Group Item!&ndash;&gt;-->
+                                <!--<li class="alert-list">-->
+                                    <!--&lt;!&ndash; BEGIN Alert Item Set Animation using data-view-animation !&ndash;&gt;-->
+                                    <!--<a href="javascript:;" class="p-t-10 p-b-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">-->
+                                        <!--<p class="col-xs-height col-middle">-->
+                                            <!--<span class="text-complete fs-10"><i class="fa fa-circle"></i></span>-->
+                                        <!--</p>-->
+                                        <!--<p class="p-l-10 col-xs-height col-middle col-xs-12 overflow-ellipsis fs-12">-->
+                                            <!--<span class="text-master link">Jame Smith commented on your appointment<br></span>-->
+                                            <!--<span class="text-master">“Is it possible to exchange time?"</span>-->
                                         <!--</p>-->
                                     <!--</a>-->
+                                    <!--&lt;!&ndash; END Alert Item!&ndash;&gt;-->
                                 <!--</li>-->
-                                <!--&lt;!&ndash; END Chat User List Item  !&ndash;&gt;-->
-                            <!--</ul>-->
-                        <!--</div>-->
-                        <!--<div class="list-view-group-container">-->
-                            <!--<div class="list-view-group-header text-uppercase">c</div>-->
-                            <!--<ul>-->
-                                <!--&lt;!&ndash; BEGIN Chat User List Item  !&ndash;&gt;-->
-                                <!--<li class="chat-user-list clearfix">-->
-                                    <!--<a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">-->
-                        <!--<span class="col-xs-height col-middle">-->
-                        <!--<span class="thumbnail-wrapper d32 circular bg-success">-->
-                            <!--<img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">-->
-                        <!--</span>-->
-                        <!--</span>-->
-                                        <!--<p class="p-l-10 col-xs-height col-middle col-xs-12">-->
-                                            <!--<span class="text-master">Chris Perez</span>-->
-                                            <!--<span class="block text-master hint-text fs-12">Hello </span>-->
+                                <!--&lt;!&ndash; END List Group Item!&ndash;&gt;-->
+                                <!--&lt;!&ndash; BEGIN List Group Item!&ndash;&gt;-->
+                                <!--<li class="alert-list">-->
+                                    <!--&lt;!&ndash; BEGIN Alert Item Set Animation using data-view-animation !&ndash;&gt;-->
+                                    <!--<a href="javascript:;" class="p-t-10 p-b-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">-->
+                                        <!--<p class="col-xs-height col-middle">-->
+                                            <!--<span class="text-complete fs-10"><i class="fa fa-circle"></i></span>-->
+                                        <!--</p>-->
+                                        <!--<p class="p-l-10 col-xs-height col-middle col-xs-12 overflow-ellipsis fs-12">-->
+                                            <!--<span class="text-master link">Jame Smith ask for starting a chat <br> converation<br></span>-->
+                                            <!--<span class="text-master">"Hello"</span>-->
                                         <!--</p>-->
                                     <!--</a>-->
+                                    <!--&lt;!&ndash; END Alert Item!&ndash;&gt;-->
                                 <!--</li>-->
-                                <!--&lt;!&ndash; END Chat User List Item  !&ndash;&gt;-->
-                            <!--</ul>-->
-                        <!--</div>-->
-                        <!--<div class="list-view-group-container">-->
-                            <!--<div class="list-view-group-header text-uppercase">d</div>-->
-                            <!--<ul>-->
-                                <!--&lt;!&ndash; BEGIN Chat User List Item  !&ndash;&gt;-->
-                                <!--<li class="chat-user-list clearfix">-->
-                                    <!--<a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">-->
-                        <!--<span class="col-xs-height col-middle">-->
-                        <!--<span class="thumbnail-wrapper d32 circular bg-success">-->
-                            <!--<img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">-->
-                        <!--</span>-->
-                        <!--</span>-->
-                                        <!--<p class="p-l-10 col-xs-height col-middle col-xs-12">-->
-                                            <!--<span class="text-master">Dr Danielle Fletcher</span>-->
-                                            <!--<span class="block text-master hint-text fs-12">Hello doctor</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-                                <!--</li>-->
-                                <!--&lt;!&ndash; END Chat User List Item  !&ndash;&gt;-->
-                                <!--<li class="chat-user-list clearfix">-->
-                                    <!--<a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#">-->
-                        <!--<span class="col-xs-height col-middle">-->
-                        <!--<span class="thumbnail-wrapper d32 circular bg-success">-->
-                            <!--<img width="34" height="34" alt="" data-src-retina="assets/img/profile.png" data-src="assets/img/profile.png" src="assets/img/profile.png" class="col-top">-->
-                        <!--</span>-->
-                        <!--</span>-->
-                                        <!--<p class="p-l-10 col-xs-height col-middle col-xs-12">-->
-                                            <!--<span class="text-master">Dr Mark Stephens</span>-->
-                                            <!--<span class="block text-master hint-text fs-12">Hello doctor</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-                                <!--</li>-->
+                                <!--&lt;!&ndash; END List Group Item!&ndash;&gt;-->
                             <!--</ul>-->
                         <!--</div>-->
                     <!--</div>-->
+                    <!--&lt;!&ndash; END Alert List !&ndash;&gt;-->
                 <!--</div>-->
-                <!--&lt;!&ndash; BEGIN Conversation View  !&ndash;&gt;-->
-                <!--<div class="view chat-view bg-white clearfix">-->
-                    <!--&lt;!&ndash; BEGIN Header  !&ndash;&gt;-->
-                    <!--<div class="navbar navbar-default">-->
-                        <!--<div class="navbar-inner">-->
-                            <!--<a href="javascript:;" class="link text-master inline action p-l-10 p-r-10" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">-->
-                                <!--<i class="pg-arrow_left"></i>-->
-                            <!--</a>-->
-                            <!--<div class="view-heading">-->
-                                <!--Demetris Strouthou-->
-                                <!--<div class="fs-11 hint-text">Online</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash; END Header  !&ndash;&gt;-->
-                    <!--&lt;!&ndash; BEGIN Conversation  !&ndash;&gt;-->
-                    <!--<div class="chat-inner" id="my-conversation">-->
-                        <!--&lt;!&ndash; BEGIN From Me Message  !&ndash;&gt;-->
-                        <!--<div class="message clearfix">-->
-                            <!--<div class="chat-bubble from-me">-->
-                                <!--Hello-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash; END From Me Message  !&ndash;&gt;-->
-                        <!--&lt;!&ndash; BEGIN From Them Message  !&ndash;&gt;-->
-                        <!--<div class="message clearfix">-->
-                            <!--<div class="profile-img-wrapper m-t-5 inline">-->
-                                <!--<img class="col-top" width="30" height="30" src="assets/img/profiles/myself.jpg" alt="" data-src="assets/img/profiles/myself.jpg" data-src-retina="assets/img/profiles/myself.jpg">-->
-                            <!--</div>-->
-                            <!--<div class="chat-bubble from-them">-->
-                                <!--Hey-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash; END From Them Message  !&ndash;&gt;-->
-                        <!--&lt;!&ndash; BEGIN From Me Message  !&ndash;&gt;-->
-                        <!--<div class="message clearfix">-->
-                            <!--<div class="chat-bubble from-me">-->
-                                <!--How are you?-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash; END From Me Message  !&ndash;&gt;-->
-                        <!--&lt;!&ndash; BEGIN From Me Message  !&ndash;&gt;-->
-                        <!--<div class="message clearfix">-->
-                            <!--<div class="chat-bubble from-me">-->
-                                <!--Hope you are ok-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash; END From Me Message  !&ndash;&gt;-->
-                        <!--&lt;!&ndash; BEGIN From Them Message  !&ndash;&gt;-->
-                        <!--<div class="message clearfix">-->
-                            <!--<div class="profile-img-wrapper m-t-5 inline">-->
-                                <!--<img class="col-top" width="30" height="30" src="assets/img/profiles/myself.jpg" alt="" data-src="assets/img/profiles/myself.jpg" data-src-retina="assets/img/profiles/myself.jpg">-->
-                            <!--</div>-->
-                            <!--<div class="chat-bubble from-them">-->
-                                <!--Iam good thank you-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash; END From Them Message  !&ndash;&gt;-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash; BEGIN Conversation  !&ndash;&gt;-->
-                    <!--&lt;!&ndash; BEGIN Chat Input  !&ndash;&gt;-->
-                    <!--<div class="b-t b-grey bg-white clearfix p-l-10 p-r-10">-->
-                        <!--<div class="row">-->
-                            <!--<div class="col-xs-1 p-t-15">-->
-                                <!--<a href="#" class="link text-master"><i class="fa fa-plus-circle"></i></a>-->
-                            <!--</div>-->
-                            <!--<div class="col-xs-8 no-padding">-->
-                                <!--<input type="text" class="form-control chat-input" data-chat-input="" data-chat-conversation="#my-conversation" placeholder="Say something">-->
-                            <!--</div>-->
-                            <!--<div class="col-xs-2 link text-master m-l-10 m-t-15 p-l-10 b-l b-grey col-top">-->
-                                <!--<a href="#" class="link text-master"><i class="pg-camera"></i></a>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash; END Chat Input  !&ndash;&gt;-->
-                <!--</div>-->
-                <!--&lt;!&ndash; END Conversation View  !&ndash;&gt;-->
+                <!--&lt;!&ndash; EEND Alerts View !&ndash;&gt;-->
             <!--</div>-->
         <!--</div>-->
-    </div>
-</div>
-<!-- END QUICKVIEW-->
+        <!--&lt;!&ndash; END Alerts !&ndash;&gt;-->
+    <!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash; END QUICKVIEW&ndash;&gt;-->
 <!-- END PAGE CONTAINER -->
+
+
+
 
 </body>
 </html>
@@ -836,7 +719,7 @@
 <script src="assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
 <script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+<!--<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>-->
 <script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
 <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
 <script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
@@ -859,7 +742,7 @@
 <script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
 <script src="assets/plugins/jquery-menuclipper/jquery.menuclipper.js"></script>
-<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+<!--<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>-->
 
 <!-- END VENDOR JS -->
 <!-- BEGIN CORE TEMPLATE JS -->

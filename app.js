@@ -17,6 +17,8 @@ var home = require('./routes/home');
 var settings = require('./routes/settings');
 var login1 = require('./routes/login1');
 var social = require('./routes/social');
+var helper = require('./routes/helper');
+
 
 
 var db = process.env.DATABASE_URL||'postgres://bddbdjoivleywu:hSpS9FGO7SDt3K7nrSc1SNMl2x@ec2-54-75-243-54.eu-west-1.compute.amazonaws.com:5432/d5chkp34u741hb';
@@ -68,6 +70,7 @@ app.use('/home', home);
 app.use('/settings', settings);
 app.use('/login1', login1);
 app.use('/social', social);
+app.use('/helper', helper);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

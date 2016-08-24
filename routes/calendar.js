@@ -25,12 +25,14 @@ router.post('/add_app', function(req, res) {
     var userid=req.body.userid;
     var Description=req.body.description;
     var Drname=req.body.drname;
+    var drID=req.body.drID;
+
 
 
 //console.log(params[0].Start+"Start time req var"+"   "+JSON.parse(req.body.models));
 
-    client.query('INSERT INTO public."AppointmentDetails"("title","name","surname","start","end","userid","description","drname") VALUES ($1,$2,$3,$4,$5,$6,$7,$8)',
-        [Title, Name, Surname, Start, End, userid, Description, Drname],
+    client.query('INSERT INTO public."AppointmentDetails"("title","name","surname","start","end","userid","description","drname","status","drID") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)',
+        [Title, Name, Surname, Start, End, userid, Description, Drname, "pending",drID],
         function(err, result) {
             if (err) {
                 console.log(err);
@@ -83,7 +85,7 @@ router.post('/get_appointments', function(req, res) {
     console.log(req.body);
 
     var userid=req.body.userid;
-    var query=client.query('SELECT * FROM public."AppointmentDetails" WHERE userid=$1', [userid]);
+    var query=client.query('SELECT * FROM public."AppointmentDetails" WHERE (userid=$1 or "AppointmentDetails"."drID"=$3) and "AppointmentDetails"."status"= $2 ', [userid,"accepted",userid]);
 
     query.on("row", function (row, result) {
 

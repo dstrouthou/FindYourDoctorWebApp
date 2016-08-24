@@ -34,7 +34,9 @@ var userid=$('#userid').val();
                 var aname=$('#pname').val();
                 var asurname=$('#psurname').val();
                 var description=$('#description').val();
-                var drname=$('#drname').val();
+                var drid=$('#drname').val();
+                var drname=$('#drname option:selected').text();
+
 
 
 
@@ -71,7 +73,8 @@ var userid=$('#userid').val();
                         appsurname:asurname,
                         userid:userid,
                         description:description,
-                        drname:drname
+                        drname:drname,
+                        drID:drid
 
                     },
                     dataType: "json",
