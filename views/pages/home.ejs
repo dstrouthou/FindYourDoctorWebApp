@@ -187,6 +187,7 @@
                 <ul class="notification-list no-margin hidden-sm hidden-xs b-grey b-l b-r no-style p-l-30 p-r-20">
                     <li class="p-r-15 inline">
                         <div class="dropdown">
+
                             <a href="/helper" id="notification-center" class="glyphicon glyphicon-user" > Appointment Helper
                             </a>
                         </div>
@@ -221,6 +222,8 @@
                         <li>
                             <a><i class="glyphicon glyphicon-user"></i> <%= user.fname%> <%= user.sname%></a>
                             <a><i class="pg-mail"></i> <%= user.email%></a>
+                            <a><i data-target="#Settings" data-toggle="modal" href="#Settings" class="pg-settings"></i> Settings</a>
+
                         </li>
                         <li class="bg-master-lighter">
                             <a href="/logout" class="clearfix">
@@ -261,7 +264,7 @@
             <!-- START CONTAINER FLUID -->
             <!--<div class="container-fluid container-fixed-lg">-->
                 <!-- BEGIN PlACE PAGE CONTENT HERE -->
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-lg" style="width: 1150px">
                 <div class="modal-content-wrapper">
                     <div class="modal-content" style="height: auto">
                         <div class="modal-header">
@@ -292,9 +295,21 @@
                                                     <th><center>Start Time</center></th>
                                                     <th><center>End Time</center></th>
                                                     <th><center>Description</center></th>
+                                                    <th><center>Cancel App</center></th>
                                                 </tr>
                                                 </thead>
+
                                                 <tbody>
+
+
+                                                <% if (app.length == 0) {%>
+                                                    <tr>
+                                                        <td colspan=8><h5>No any appointments available</h5></td>
+
+                                                    </tr>
+
+                                                <%} else {%>
+
                                                 <% for (var i=0;i< app.length;i++){ %>
                                                 <tr>
                                                     <td >
@@ -319,8 +334,16 @@
                                                     <td >
                                                         <span><center><%= app[i].description %></center></span>
                                                     </td>
+                                                    <td>
+                                                        <center>
+                                                        <button type="button" id="acceptreq" class="btn btn-danger btn_accept_event" onclick="CancelApp(this.value)"
+                                                                value=<%=app[i].AppID%>>
+                                                            <span class="glyphicon glyphicon-remove"></span>
+                                                        </button>
+                                                        </center>
+                                                    </td>
                                                 </tr>
-                                                <%}%>
+                                                <%}}%>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -571,6 +594,27 @@
 </div>
 
 
+
+<div id="Settings" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h1 style="font-family:Georgia" id="modalTitle" class="modal-title">Terms of Use</h1><br>
+                </div>
+                <div class="modal-body" style="padding-left: 100px">
+                    <br>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div id="TermofuseModal" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content-wrapper">
@@ -758,5 +802,32 @@
 <!-- END PAGE LEVEL JS -->
 <script>
 
+    function CancelApp(id) {
+        var AppID=id;
+        $.ajax({
+            url: '/home/cancel',
+            type: 'post',
+            data: {
 
+                AppID: AppID
+
+
+            },
+            dataType: "json",
+            async: true,
+
+            // mongod is expecting the parameter name to be called "jsonp"
+
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log('error',errorThrown,textStatus);
+            },
+
+            success: function (data) {
+                // title:data.title + data.start;
+                location.reload();
+
+
+            },
+        });
+    }
 </script>

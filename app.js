@@ -18,14 +18,30 @@ var settings = require('./routes/settings');
 var login1 = require('./routes/login1');
 var social = require('./routes/social');
 var helper = require('./routes/helper');
+var nodemailer = require('nodemailer');
 
 
 
 var db = process.env.DATABASE_URL||'postgres://bddbdjoivleywu:hSpS9FGO7SDt3K7nrSc1SNMl2x@ec2-54-75-243-54.eu-west-1.compute.amazonaws.com:5432/d5chkp34u741hb';
 pg.defaults.ssl = true;
 require('./config/passport')(passport); // pass passport for configuration
+var smtpTransport = nodemailer.createTransport("SMTP",{
+  service: "Gmail",
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // use SSL
+  // host: "smtp.live.com",
+  // port: 587,
 
+  auth: {
+    user:  'demetristrouthou@gmail.com',
+    pass:  'Mitsos019'
+  }
+  // tls: {
+  //   ciphers:'SSLv3'
+  // }
 
+});
 
 var app = express();
 var flash    = require('connect-flash');
@@ -37,6 +53,10 @@ var route = require('./routes');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(function(req,res,next){
+  req.smtpTransport=smtpTransport;
+  next();
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

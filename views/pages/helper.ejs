@@ -11,7 +11,6 @@
     <link rel="apple-touch-icon" sizes="152x152" href="pages/ico/152.png">
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
-
     <link href="fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" media="screen" />
 
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,10 +25,164 @@
     <link href="assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
+
+
     <link class="main-stylesheet" href="pages/css/pages.css" rel="stylesheet" type="text/css" />
     <!--[if lte IE 9]>
     <link href="pages/css/ie9.css" rel="stylesheet" type="text/css" />
     <![endif]-->
+    <script src="assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="jquery.steps/jquery.steps.js"></script>
+
+    <style type="text/css">
+        body {
+            margin-top:40px;
+        }
+        .stepwizard-step p {
+            margin-top: 10px;
+        }
+        .stepwizard-row {
+            display: table-row;
+        }
+        .stepwizard {
+            display: table;
+            width: 50%;
+            position: relative;
+        }
+        .stepwizard-step button[disabled] {
+            opacity: 1 !important;
+            filter: alpha(opacity=100) !important;
+        }
+        .stepwizard-row:before {
+            top: 14px;
+            bottom: 0;
+            position: absolute;
+            content: " ";
+            width: 100%;
+            height: 1px;
+            background-color: #ccc;
+            z-order: 0;
+        }
+        .stepwizard-step {
+            display: table-cell;
+            text-align: center;
+            position: relative;
+        }
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+        }
+    </style>
+
+    <style>
+
+        /*body {*/
+        /*margin-top: 40px;*/
+        /*text-align: center;*/
+        /*font-size: 14px;*/
+        /*font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;*/
+        /*}*/
+        .datepicker {z-index: 1151 !important;}
+        .timepicker {z-index: 1151 !important;}
+
+        #wrap {
+            width: 1100px;
+            margin: 0 auto;
+        }
+
+        #external-events {
+            float: left;
+            width: 150px;
+            padding: 0 10px;
+            border: 1px solid #ccc;
+            background: #eee;
+            text-align: left;
+        }
+
+        #external-events h4 {
+            font-size: 16px;
+            margin-top: 0;
+            padding-top: 1em;
+        }
+
+        #external-events .fc-event {
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        #external-events p {
+            margin: 1.5em 0;
+            font-size: 11px;
+            color: #666;
+        }
+
+        #external-events p input {
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        #calendar {
+            float: right;
+            width: 1150px;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var navListItems = $('div.setup-panel div a'),
+                    allWells = $('.setup-content'),
+                    allNextBtn = $('.nextBtn');
+
+            allWells.hide();
+
+            navListItems.click(function (e) {
+                e.preventDefault();
+                var $target = $($(this).attr('href')),
+                        $item = $(this);
+
+                if (!$item.hasClass('disabled')) {
+                    navListItems.removeClass('btn-primary').addClass('btn-default');
+                    $item.addClass('btn-primary');
+                    allWells.hide();
+                    $target.show();
+                    $target.find('input:eq(0)').focus();
+                }
+            });
+
+            allNextBtn.click(function(){
+                var curStep = $(this).closest(".setup-content"),
+                        curStepBtn = curStep.attr("id"),
+                        nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                        curInputs = curStep.find("input[type='text'],input[type='url'],input[type='date'],input[type='time']"),
+                        isValid = true;
+
+                $(".form-group").removeClass("has-error");
+                for(var i=0; i<curInputs.length; i++){
+                    if (!curInputs[i].validity.valid){
+                        isValid = false;
+                        $(curInputs[i]).closest(".form-group").addClass("has-error");
+                    }
+                }
+
+                if (isValid)
+                    nextStepWizard.removeAttr('disabled').trigger('click');
+            });
+
+            $('div.setup-panel div a.btn-primary').trigger('click');
+        });
+    </script>
+
     <script type="text/javascript">
         window.onload = function()
         {
@@ -40,6 +193,8 @@
     </script>
 </head>
 <body class="fixed-header   ">
+<input type="hidden" name="userid" id="userid" value= <%= user.id %>>
+
 <!-- BEGIN SIDEBPANEL-->
 <nav class="page-sidebar" data-pages="sidebar">
     <!-- BEGIN SIDEBAR MENU TOP TRAY CONTENT-->
@@ -91,7 +246,7 @@
                 <a href="email" class="detailed">
                     <img src="assets/img/notifications.png" alt="logo" class="brand" data-src="assets/img/notifications.png" data-src-retina="assets/img/notifications.png" width="150" height="20">
                 </a>
-                <span class="icon-thumbnail"><i class="glyphicon glyphicon-exclamation-sign"></i></span>
+                <span class="icon-thumbnail"><i class="glyphicon glyphicon-exclamation-sign"><%=notif.length%></i></span>
             </li>
             <li class="">
                 <a href="social">
@@ -244,7 +399,7 @@
                                        <div class="col-md-6 pull-left" >
                                            <div class="form-group form-group-default required" >
                                                <div id="helperdate" class="input-group date col-md-14" aria-hidden="true" >
-                                                   <input type="text" class="form-control" style="padding-top: 10px" required><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                   <input type="text" class="form-control" style="padding-top: 10px" onchange="dateonchange(this.value)" required><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                </div>
                                            </div>
                                        </div>
@@ -277,24 +432,18 @@
                                <br>
 
 
-                               <label for="textarea">Preferable Doctor:</label>
+                               <label for="textarea">Doctor Specialty:</label>
                                <br>
                                <div class="row">
 
 
                                <div class="form-group-attached">
                                    <div class="dropdown">
-                                       <select class="col-md-5" data-placeholder="Select your gender" data-init-plugin="select2" name="drname" id="drname" >
+                                       <select class="col-md-5" data-placeholder="Select your gender" data-init-plugin="select2" name="drspec" id="drspec" onchange="refreshcal(this.value)" >
                                            <option value="">Please Select</option>
-                                           <option value=1>Dr Mark Spencer</option>
-                                           <option value=2>Dr Melanie You</option>
-                                           <option value=3>Dr Maria Game</option>
-                                           <option value=4>Dr Daniel Eight</option>
-                                           <option value=5>Dr David Sharp</option>
-                                           <option value=6>Dr Drake Brown</option>
-                                           <option value=7>Dr Jessica James</option>
-                                           <option value=8>Dr Bryan Dier</option>
-                                           <option value=9>Dr Emily Dooke</option>
+                                           <option value=Dermatologist>Dermatologist</option>
+                                           <option value=Psychiatric>Psychiatric</option>
+                                           <option value=Cardiologist>Cardiologist</option>
                                        </select>
                                        <div class="col-md-7">
 
@@ -356,7 +505,316 @@
     <!-- END PAGE CONTENT WRAPPER -->
 </div>
 <!-- END PAGE CONTAINER -->
-
+<div id="fullCalModal" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-content" style="border-color:  #0e90d2;">
+                <div class="modal-header" style="background-color: #0e90d2; padding-top: 0px; height: 35px">
+                    <button type="button" class="close" data-dismiss="modal" style="font-size: 40px"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <br><br><h1 style="font-family:Georgia" id="modalTitle" class="modal-title">Appointment Form</h1><br>
+                </div>
+                <br><br>
+                <div class="modal-body">
+                    <br><br>
+                    <div class="stepwizard col-md-offset-3">
+                        <div class="stepwizard-row setup-panel">
+                            <div class="stepwizard-step" style="width: 120px">
+                                <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                                <p>Appointment Info</p>
+                            </div>
+                            <div class="stepwizard-step" style="width: 120px">
+                                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                                <p>Patient History</p>
+                            </div>
+                            <div class="stepwizard-step" style="width: 120px">
+                                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                <p>Continue</p>
+                            </div>
+                            <div class="stepwizard-step" style="width: 120px">
+                                <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                                <p>Summary</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form role="form" action="" method="post">
+                        <div class="row setup-content" id="step-1">
+                            <div class="tab-pane padding-20 active slide-left" id="tab1">
+                                <div class="row row-same-height">
+                                    <div class="col-md-5 b-r b-dashed b-grey sm-b-b">
+                                        <div class="padding-30 m-t-50">
+                                            <h2 style="font-family:Georgia">Your Information is safe with us!</h2>
+                                            <p>We respect your privacy and protect it with strong encryption, plus strict policies .</p>
+                                            <p class="small hint-text">Please complete all the necessary fields with confidence.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="padding-30">
+                                            <label for="textarea">Appointment reason:</label>
+                                            <div class="form-group-attached">
+                                                <div class="row clearfix">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group form-group-default required" >
+                                                            <label>Appointment reason</label>
+                                                            <input id="title" type="text" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <label for="textarea">Patient Name and Surname</label>
+                                            <div class="form-group-attached">
+                                                <div class="row clearfix">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group form-group-default required">
+                                                            <label>First name</label>
+                                                            <input id="pname" type="text" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group form-group-default required">
+                                                            <label>Last name</label>
+                                                            <input id="psurname" type="text" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <label for="textarea">Appointment Date:</label>
+                                            <div class="form-group-attached">
+                                                <div class="row clearfix">
+                                                    <div class="col-md-6 pull-left" >
+                                                        <div class="form-group form-group-default required" >
+                                                            <label>Date</label>
+                                                            <div id="appdate" class="input-group date col-md-14" aria-hidden="true" >
+                                                                <input type="text" class="form-control" style="padding-top: 10px" required><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <label for="textarea">Appointment Time:</label>
+                                            <br>
+                                            <div class="form-group-attached">
+                                                <div class="row clearfix">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group form-group-default required">
+                                                            <label>From</label>
+                                                            <div class="col-md-12 input-group bootstrap-timepicker timepicker required">
+                                                                <input id="appdatefrom" type="text" class="form-control input-small" style="padding-top: 10px; padding-left: 0px" required>
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 ">
+                                                        <div class="form-group form-group-default required">
+                                                            <label>To</label>
+                                                            <div class="col-md-12 input-group bootstrap-timepicker timepicker required">
+                                                                <input id="appdateto" type="text" class="form-control input-small" style="padding-top: 10px; padding-left: 0px" required>
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <label for="textarea">Select Doctor:</label>
+                                            <br>
+                                            <div class="form-group-attached">
+                                                <div class="dropdown">
+                                                    <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="drname">Please Select-->
+                                                    <!--<span class="caret"></span></button>-->
+                                                    <!--<ul class="dropdown-menu">-->
+                                                    <!--<li value="Mark Spencer">Dr Mark Spencer</li>-->
+                                                    <!--<li><a href="#" value="Melanie You">Dr Melanie You</a></li>-->
+                                                    <!--<li><a href="#" value="Jessica James">Dr Jessica James</a></li>-->
+                                                    <!--<li><a href="#" value="Maria Game">Dr Maria Game</a></li>-->
+                                                    <!--<li><a href="#" value="Daniel Eight">Dr Daniel Eight</a></li>-->
+                                                    <!--<li><a href="#" value="David Sharp">Dr David Sharp</a></li>-->
+                                                    <!--<li><a href="#" value="Bryan Dier">Dr Bryan Dier</a></li>-->
+                                                    <!--<li><a href="#" value="Drake Brown">Dr Drake Brown</a></li>-->
+                                                    <!--</ul>-->
+                                                    <select class="col-md-5" data-placeholder="Select your gender" data-init-plugin="select2" name="drname" id="drname" >
+                                                        <option value="">Please Select</option>
+                                                        <option value=1>Dr Mark Spencer</option>
+                                                        <option value=2>Dr Melanie You</option>
+                                                        <option value=3>Dr Maria Game</option>
+                                                        <option value=4>Dr Daniel Eight</option>
+                                                        <option value=5>Dr David Sharp</option>
+                                                        <option value=6>Dr Drake Brown</option>
+                                                        <option value=7>Dr Jessica James</option>
+                                                        <option value=8>Dr Bryan Dier</option>
+                                                        <option value=9>Dr Emily Dooke</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <label for="textarea">Any note for the doctor?</label><br>
+                                            <form action="demo_form.asp" method="get">
+                                                <input type="checkbox" name="vehicle" value="Yes"> Yes<br>
+                                                <input type="checkbox" name="vehicle" value="No"> No<br>
+                                                <label>If yes please specify:</label> <br>
+                                                <textarea rows="4" cols="50" id="description"></textarea>
+                                            </form>
+                                            <br><br>
+                                            <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" style="width: 150px; border-color: white; background-color: #0e90d2" >Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row setup-content" id="step-2">
+                            <div class="tab-pane slide-left padding-20" id="tab2">
+                                <div class="row row-same-height">
+                                    <div class="col-md-5 b-r b-dashed b-grey ">
+                                        <div class="padding-30 m-t-50">
+                                            <h2 style="font-family:Georgia">Please describe your health problem:</h2>
+                                            <br>
+                                            <textarea rows="10" cols="35"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7" >
+                                        <div class="padding-30">
+                                            <form role="form">
+                                                <h4>Please answer all the following questions:</h4>
+                                                <p>1. Have you ever been under any medical treatment?</p>
+                                                <form action="demo_form.asp" method="get">
+                                                    <input type="checkbox" name="vehicle" value="Bike"> Yes<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> No<br>
+                                                    <label>If yes please list all your medications:</label> <br>
+                                                    <textarea rows="4" cols="50"></textarea>
+                                                </form>
+                                                <br>
+                                                <p>2. Please list any of your past/current conditions:</p>
+                                                <form action="demo_form.asp" method="get">
+                                                    <input type="checkbox" name="vehicle" value="Bike"> Asthma<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Cancer<br>
+                                                    <input type="checkbox" name="vehicle" value="Bike"> Chronic Bronchitis<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Diabetes<br>
+                                                    <input type="checkbox" name="vehicle" value="Bike"> Emphysema<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Fever<br>
+                                                    <input type="checkbox" name="vehicle" value="Bike"> Anemia<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Thyroid Dysfunction<br>
+                                                    <input type="checkbox" name="vehicle" value="Bike"> Pneumonia<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Aneurysm<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> High blood pressure<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> None of the above<br>
+                                                    <label>How long have you been suffering from the above symptoms?</label> <br>
+                                                    <textarea rows="4" cols="50"></textarea>
+                                                </form>
+                                                <br>
+                                                <p>3. Does anything make your symptoms worse/better?</p>
+                                                <form action="demo_form.asp" method="get">
+                                                    <input type="checkbox" name="vehicle" value="Bike"> Yes<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> No<br>
+                                                    <label>If yes please specify:</label> <br>
+                                                    <textarea rows="4" cols="50"></textarea>
+                                                </form>
+                                                <br>
+                                                <p>4. Do you have any known allergies of the following?</p>
+                                                <form action="demo_form.asp" method="get">
+                                                    <input type="checkbox" name="vehicle" value="Bike"> Penicillin<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Codeine<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Novocaine<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Aspirin<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Sulfa<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Latex<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> Pollen<br>
+                                                    <input type="checkbox" name="vehicle" value="Car"> None of the above<br>
+                                                </form>
+                                            </form>
+                                            <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" style="width: 150px; border-color: white; background-color: #0e90d2">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row setup-content" id="step-3">
+                            <div class="tab-pane slide-left padding-20" id="tab3">
+                                <div class="row row-same-height">
+                                    <div class="col-md-5 b-r b-dashed b-grey ">
+                                        <div class="padding-30 m-t-5">
+                                            <p>5. Are you having any breath problems?</p>
+                                            <form action="demo_form.asp" method="get">
+                                                <input type="checkbox" name="vehicle" value="Bike"> Yes<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> No<br>
+                                            </form>
+                                            <br>
+                                            <p>6. Do you smoke?</p>
+                                            <form action="demo_form.asp" method="get">
+                                                <input type="checkbox" name="vehicle" value="Bike"> Yes<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> No<br>
+                                                <label>If yes how many per day:</label> <br>
+                                                <textarea rows="2" cols="20"></textarea>
+                                            </form>
+                                            <br>
+                                            <p>7. Do you drink alcohol?</p>
+                                            <form action="demo_form.asp" method="get">
+                                                <input type="checkbox" name="vehicle" value="Bike"> Yes<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> No<br>
+                                                <label>If yes how often?</label> <br>
+                                                <textarea rows="2" cols="20"></textarea>
+                                            </form>
+                                            <br>
+                                            <p>8. Do you have any of the following symptoms?</p>
+                                            <form action="demo_form.asp" method="get">
+                                                <input type="checkbox" name="vehicle" value="Bike"> Dizziness<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> Weakness<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> Sweating<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> Headache/Migraines<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> Dry mouth<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> Blurred vision<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> None of the above<br>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="padding-30">
+                                            <p>9. Have you ever had any previous surgical operations?</p>
+                                            <form action="demo_form.asp" method="get">
+                                                <input type="checkbox" name="vehicle" value="Bike"> Yes<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> No<br>
+                                                <label>If yes please specify:</label> <br>
+                                                <textarea rows="4" cols="50"></textarea>
+                                            </form>
+                                            <br>
+                                            <p>10. Do you exercise?</p>
+                                            <form action="demo_form.asp" method="get">
+                                                <input type="checkbox" name="vehicle" value="Bike"> Yes<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> No<br>
+                                                <label>If yes what kind of exercise and how often:</label> <br>
+                                                <textarea rows="4" cols="50"></textarea>
+                                            </form>
+                                            <br>
+                                            <p>11. Do you have any known allergies to any drugs, foods, animals or materials?</p>
+                                            <form action="demo_form.asp" method="get">
+                                                <input type="checkbox" name="vehicle" value="Bike"> Yes<br>
+                                                <input type="checkbox" name="vehicle" value="Car"> No<br>
+                                                <label>If yes please specify:</label> <br>
+                                                <textarea rows="4" cols="50"></textarea>
+                                            </form>
+                                            <button class="btn btn-primary nextBtn btn-lg pull-right" type="button"  style="width: 150px; border-color: white; background-color: #0e90d2">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row setup-content" id="step-4">
+                            <div class="tab-pane slide-left padding-20" id="tab4">
+                                <h1 style="font-family:Georgia">Thank you.</h1>
+                                <p>Your information have been sent to the selected doctor and your appointment has been created</p>
+                                <button class="btn btn-primary btn-cons pull-right" id="submitbtn" type="button" data-dismiss="modal" style="border-color: white; background-color: #0e90d2">
+                                    <span>Submit</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="TermofuseModal" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-md">
@@ -413,15 +871,19 @@
 <script src="assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
 <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
 
+
 <!-- END VENDOR JS -->
 <!-- BEGIN CORE TEMPLATE JS -->
 <script src="pages/js/pages.min.js"></script>
 <!-- END CORE TEMPLATE JS -->
 <!-- BEGIN PAGE LEVEL JS -->
+
+
 <script src="assets/js/notifications.js" type="text/javascript"></script>
 <script src="fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
 <script src="../fullcalendarinitializehelper.js" type="text/javascript"></script>
 <script src="assets/js/scripts.js" type="text/javascript"></script>
+
 <!--<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/fullcalendar.min.js'></script>-->
 <!--<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/moment.min.js'></script>-->
 
@@ -438,7 +900,45 @@
         $('#helperfrom').timepicker("setTime",moment().format('hh:mm:ss a'));
         $('#helperto').timepicker("setTime",moment().format('hh:mm:ss a'));
     });
+function dateonchange(selvalue){
+    var ddate=$('#helperdate').datepicker('getDate');
+    var t=new Date(ddate);
+    $('#calendar1').fullCalendar('gotoDate',t);
 
 
+}
+function refreshcal(selvalue){
+
+var ddate=$('#helperdate').datepicker('getDate');
+var dfrom=$('#helperfrom').val();
+var dto=$('#helperto').val();
+
+    var source={
+        url:'/helper/get_spec_appointments',
+        type:'POST',
+        data:{
+            specialty:selvalue,
+            ddate:ddate,
+            dfrom:dfrom,
+            dto:dto
+        },
+        success:function (data)
+        {
+
+
+        },
+        error: function () {
+
+         alert("error")
+        },
+        editable:false
+
+        };
+        $('#calendar1').fullCalendar('removeEventSource',source);
+        $('#calendar1').fullCalendar('refetchEvents');
+        $('#calendar1').fullCalendar('addEventSource',source);
+        $('#calendar1').fullCalendar('refetchEvents');
+
+    }
 
 </script>

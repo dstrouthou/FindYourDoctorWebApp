@@ -201,41 +201,93 @@ module.exports = function(app, passport) {
 
     });
     app.get('/email', isLoggedIn, function(req, res) {
+        var app;
+        var myinfo;
+        async.parallel([	//use of async not depented events
+            function(callback) {
 
 
-        var db = process.env.DATABASE_URL||'postgres://bddbdjoivleywu:hSpS9FGO7SDt3K7nrSc1SNMl2x@ec2-54-75-243-54.eu-west-1.compute.amazonaws.com:5432/d5chkp34u741hb';
-        var client = new pg.Client(db);
-        client.connect();
-        console.log(req.body);
+                var db = process.env.DATABASE_URL || 'postgres://bddbdjoivleywu:hSpS9FGO7SDt3K7nrSc1SNMl2x@ec2-54-75-243-54.eu-west-1.compute.amazonaws.com:5432/d5chkp34u741hb';
+                var client = new pg.Client(db);
+                client.connect();
+                console.log(req.body);
 
-        var userid=req.user.id;
-        var query=client.query('SELECT * FROM public."AppointmentDetails" inner join public."users" on users."id"="AppointmentDetails"."drID" WHERE ("AppointmentDetails"."drID"=$1 OR "AppointmentDetails"."userid"=$3)  and "AppointmentDetails"."status"=$2 order by start asc', [userid,"pending",userid]);
+                var userid = req.user.id;
+                var query = client.query('SELECT * FROM public."AppointmentDetails" inner join public."users" on users."id"="AppointmentDetails"."drID" WHERE ("AppointmentDetails"."drID"=$1 OR "AppointmentDetails"."userid"=$3)  and "AppointmentDetails"."status"=$2 order by start asc', [userid, "pending", userid]);
 
-        query.on("row", function (row, result) {
-            var t=row.start;
-            var t2=moment(t).format("MM/DD/YYYY");
-            row.start=t2;
-            var v=row.start;
-            var v2=moment(v).format("hh:mm");
+                query.on("row", function (row, result) {
+                    var t = row.start;
+                    var t2 = moment(t).format("MM/DD/YYYY");
+                    row.start = t2;
+                    var v = row.start;
+                    var v2 = moment(v).format("hh:mm");
 
-            var e=row.end;
-            var e2=moment(e).format("hh:mm");
-            row.end=e2;
+                    var e = row.end;
+                    var e2 = moment(e).format("hh:mm");
+                    row.end = e2;
 
-            row.sttime=v2;
-            result.addRow(row);
+                    row.sttime = v2;
+
+                    result.addRow(row);
 
 
-        });
-        query.on("end", function (result) {
+                });
+                query.on("end", function (result) {
 
-            console.log("asdasdas",req.user,"asdasda");
-            client.end();
-            //result=JSON.stringify(result.rows);
+                    client.end();
+                    //result=JSON.stringify(result.rows);
+                    app=result.rows;
+                    callback();
 
+
+                });
+            },function(callback){
+
+                var db = process.env.DATABASE_URL || 'postgres://bddbdjoivleywu:hSpS9FGO7SDt3K7nrSc1SNMl2x@ec2-54-75-243-54.eu-west-1.compute.amazonaws.com:5432/d5chkp34u741hb';
+                var client = new pg.Client(db);
+                client.connect();
+                console.log(req.body);
+
+                var userid = req.user.id;
+                var query = client.query('SELECT * FROM public."AppointmentDetails" inner join public."users" on users."id"="AppointmentDetails"."userid" WHERE ("AppointmentDetails"."drID"=$1 OR "AppointmentDetails"."userid"=$3)  and "AppointmentDetails"."status"=$2 order by start asc', [userid, "pending", userid]);
+
+                query.on("row", function (row, result) {
+                    var t = row.start;
+                    var t2 = moment(t).format("MM/DD/YYYY");
+                    row.start = t2;
+                    var v = row.start;
+                    var v2 = moment(v).format("hh:mm");
+
+                    var e = row.end;
+                    var e2 = moment(e).format("hh:mm");
+                    row.end = e2;
+
+                    row.sttime = v2;
+
+                    result.addRow(row);
+
+
+                });
+                query.on("end", function (result) {
+
+                    client.end();
+                    //result=JSON.stringify(result.rows);
+                    console.log("ASDADADADASDA",result.rows,"ASDADAASASDDADASD");
+                    myinfo=result.rows;
+                    callback();
+
+
+                });
+
+            }
+        ],function(err) { //This function gets called after the two tasks have called their "task callbacks"
+            if (err) return next(err); //If an error occured, we let express/connect handle it by calling the "next" function
+            //Here locals will be populated with 'user' and 'posts'
+            //console.log(results.service);
             res.render('pages/email', {
-                user : req.user ,// get the user out of session and pass to templatere
-                app:result.rows
+                user: req.user,// get the user out of session and pass to templatere
+                app: app,
+                myinfo:myinfo
             });
         });
     });
@@ -318,9 +370,44 @@ module.exports = function(app, passport) {
         });
     });
     app.get('/helper', isLoggedIn, function(req, res) {
-        res.render('pages/helper', {
-            user : req.user // get the user out of session and pass to template
+        var db = process.env.DATABASE_URL||'postgres://bddbdjoivleywu:hSpS9FGO7SDt3K7nrSc1SNMl2x@ec2-54-75-243-54.eu-west-1.compute.amazonaws.com:5432/d5chkp34u741hb';
+        var client = new pg.Client(db);
+        var notif;
+        client.connect();
+        console.log(req.body);
+
+        var userid=req.user.id;
+        var query=client.query('SELECT * FROM public."AppointmentDetails" inner join public."users" on users."id"="AppointmentDetails"."drID" WHERE ("AppointmentDetails"."drID"=$1 OR "AppointmentDetails"."userid"=$3)  and "AppointmentDetails"."status"=$2 order by start asc', [userid,"pending",userid]);
+
+        query.on("row", function (row, result) {
+            var t=row.start;
+            var t2=moment(t).format("MM/DD/YYYY");
+            row.start=t2;
+            var v=row.start;
+            var v2=moment(v).format("hh:mm");
+
+            var e=row.end;
+            var e2=moment(e).format("hh:mm");
+            row.end=e2;
+
+            row.sttime=v2;
+            result.addRow(row);
+
+
         });
+        query.on("end", function (result) {
+
+            console.log("asdasdas",req.user,"asdasda");
+            client.end();
+            //result=JSON.stringify(result.rows);
+
+            res.render('pages/helper', {
+                user : req.user ,// get the user out of session and pass to templatere
+                notif:result.rows
+            });
+        });
+
+
     });
     // =====================================
     // LOGOUT ==============================

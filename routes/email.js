@@ -4,6 +4,8 @@
 var express = require('express');
 var pg = require('pg');
 var moment=require('moment');
+var fs=require('fs');
+var _ejs=require('ejs');
 var router = express.Router();
 
 /* GET users listing. */
@@ -59,6 +61,65 @@ router.post('/decline', function(req, res) {
             res.send({});
         });
 
+});
+router.get('/send_accept_meeting',function(req,res){
+//code to send e-mail.
+//Will be shown soon.
+    console.log(req.query.usemail);
+
+    var patientname=req.query.patientname;
+
+    var start=moment(req.query.start).format('MM-DD-YYYY');
+
+    var template =  process.cwd()+ '/views/email_acc.ejs';
+
+    // get template from file system
+    fs.readFile(template, 'utf8', function(err, file){
+        if(err){
+            //handle errors
+            console.log('ERROR!',err);
+            return res.send(err);
+        }
+        else {
+
+            // var html = file;
+            var e = _ejs.compile(file);
+
+            var html=_ejs.render(file,{
+                patientname:patientname,
+                appdate:start,
+                apptime:req.query.sttime,
+                apptimeend:req.query.end,
+                drname:req.query.drname
+
+            });
+
+            sendMail( html, function(err, response){
+                if(err){
+                    console.log('ERROR!',err,response);
+                    return res.send(err);
+                }
+                res.end("sent");
+            });
+        }
+    });
+
+
+
+    var sendMail = function(content, next){
+        var mailOptions={
+            from:'demetristrouthou@gmail.com',
+            to : req.query.usemail,
+            subject : "Meeting Accepted",
+            text : "",
+            html:content
+        };
+
+        req.smtpTransport.sendMail(mailOptions, next);
+
+
+
+    };
 });
 
 

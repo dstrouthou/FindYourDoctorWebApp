@@ -275,8 +275,8 @@
                                 <%if(app[i].drID==user.id){%>
                                 <td class="v-align-middle" style="width: 150px">
 
-                                    <button type="button" id="acceptreq" class="btn btn-success btn_accept_event" onclick="AcceptReq(this.value)"
-                                    value=<%=app[i].AppID%>>
+                                    <button type="button" id="acceptreq" class="btn btn-success btn_accept_event"
+                                    value= <%=app[i].AppID+"*"+app[i].name+"*"+app[i].surname+"*"+app[i].start+"*"+app[i].sttime+"*"+myinfo[0].email +"*"+"Dr"+"*"+user.fname+"*"+user.sname+"*"+app[i].end%> + onclick="AcceptReq(this.value)"  >
                                     <span class="glyphicon glyphicon-ok"></span>
                                     </button>
                                     <button type="button" id="acceptreq" class="btn btn-danger btn_accept_event" onclick="DeclineReq(this.value)"
@@ -595,33 +595,63 @@
 </html>
 
 <script>
-    function AcceptReq(id) {
-        var AppID=id;
-        $.ajax({
-            url: '/email/update',
-            type: 'post',
-            data: {
+    function AcceptReq(vl) {
 
-                AppID: AppID
-
-
-            },
-            dataType: "json",
-            async: true,
-
-            // mongod is expecting the parameter name to be called "jsonp"
-
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log('error',errorThrown,textStatus);
-            },
-
-            success: function (data) {
-                // title:data.title + data.start;
-                location.reload();
+        var res = vl.split("*");
+        console.log(vl);
+        var AppID=res[0];
+        var name=res[1];
+        var surname=res[2];
+        var start=res[3];
+        var sttime=res[4];
+        var usemail=res[5];
+        var t1=res[6];
+        var t2=res[7];
+        var t3=res[8];
+        var end=res[9];
+var drname=t1+" "+t2+" "+t3;
 
 
-            },
+//        $.ajax({
+//            url: '/email/update',
+//            type: 'post',
+//            data: {
+//
+//                AppID: AppID
+//
+//
+//            },
+//            dataType: "json",
+//            async: true,
+//
+//            // mongod is expecting the parameter name to be called "jsonp"
+//
+//            error: function (XMLHttpRequest, textStatus, errorThrown) {
+//                console.log('error',errorThrown,textStatus);
+//            },
+//
+//            success: function (data) {
+//                // title:data.title + data.start;
+//                //location.reload();
+//
+//
+//            },
+//        });
+        $.get("/email/send_accept_meeting",{patientname:name+' '+surname,appdate:start,sttime:sttime,end:end,drname:drname,usemail:usemail},function(data) {
+            if (data == "sent") {
+                alert("Email sent");
+//                //$("#message").html("Email is been sent at "+to+" . Please check inbox !");
+//                $("#prev_b").hide();
+//                $("#finish_b").hide();
+//                $("#nav_bar_ap_form").hide();
+//                $("#email_message").html("Email is been sent at "+to+" . Please check your inbox !");
+            }
+            else
+                alert(data);
         });
+
+
+
     }
 
     function DeclineReq(id) {

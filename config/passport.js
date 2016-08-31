@@ -77,8 +77,8 @@ module.exports = function(passport) {
                         };
 
 
-                        connection.query('INSERT INTO users ( "username", "password", "fname", "sname", "email", "dateofbirth", "sex" ) values ($1,$2,$3,$4,$5,$6,$7) RETURNING id',
-                            [newUserMysql.username, newUserMysql.password, newUserMysql.fname, newUserMysql.sname, newUserMysql.email, newUserMysql.dateofbirth, newUserMysql.selectsex],
+                        connection.query('INSERT INTO users ( "username", "password", "fname", "sname", "email", "dateofbirth", "sex", "type" ) values ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id',
+                            [newUserMysql.username, newUserMysql.password, newUserMysql.fname, newUserMysql.sname, newUserMysql.email, newUserMysql.dateofbirth, newUserMysql.selectsex, "patient"],
                             function(err, result) {
                                 if (err) {
                                     console.log(err);
