@@ -612,31 +612,31 @@
 var drname=t1+" "+t2+" "+t3;
 
 
-//        $.ajax({
-//            url: '/email/update',
-//            type: 'post',
-//            data: {
-//
-//                AppID: AppID
-//
-//
-//            },
-//            dataType: "json",
-//            async: true,
-//
-//            // mongod is expecting the parameter name to be called "jsonp"
-//
-//            error: function (XMLHttpRequest, textStatus, errorThrown) {
-//                console.log('error',errorThrown,textStatus);
-//            },
-//
-//            success: function (data) {
-//                // title:data.title + data.start;
-//                //location.reload();
-//
-//
-//            },
-//        });
+        $.ajax({
+            url: '/email/update',
+            type: 'post',
+            data: {
+
+                AppID: AppID
+
+
+            },
+            dataType: "json",
+            async: true,
+
+            // mongod is expecting the parameter name to be called "jsonp"
+
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log('error',errorThrown,textStatus);
+            },
+
+            success: function (data) {
+                // title:data.title + data.start;
+                //location.reload();
+
+
+            },
+        });
         $.get("/email/send_accept_meeting",{patientname:name+' '+surname,appdate:start,sttime:sttime,end:end,drname:drname,usemail:usemail},function(data) {
             if (data == "sent") {
                 alert("Email sent");
