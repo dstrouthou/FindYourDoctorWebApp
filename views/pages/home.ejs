@@ -187,8 +187,7 @@
                 <ul class="notification-list no-margin hidden-sm hidden-xs b-grey b-l b-r no-style p-l-30 p-r-20">
                     <li class="p-r-15 inline">
                         <div class="dropdown">
-
-                            <a href="/helper" id="notification-center" class="glyphicon glyphicon-user" > Appointment Helper
+                            <a href="/helper" id="notification-center" style="font-size: 18px"><i class="glyphicon glyphicon-user" style="font-size: 18px"></i> Appointment Helper
                             </a>
                         </div>
                     </li>
@@ -222,7 +221,7 @@
                         <li>
                             <a><i class="glyphicon glyphicon-user"></i> <%= user.fname%> <%= user.sname%></a>
                             <a><i class="pg-mail"></i> <%= user.email%></a>
-                            <a><i data-target="#Settings" data-toggle="modal" href="#Settings" class="pg-settings"></i> Settings</a>
+                            <a data-target="#Settings" data-toggle="modal" href="#Settings"><i class="glyphicon glyphicon-pencil"></i> Edit your profile</a>
 
                         </li>
                         <li class="bg-master-lighter">
@@ -268,7 +267,7 @@
                 <div class="modal-content-wrapper">
                     <div class="modal-content" style="height: auto">
                         <div class="modal-header">
-                            <h1 style="font-family:Georgia" id="modalTitle" class="modal-title"><center>My Appointments</center></h1>
+                            <h1 style="font-family:Georgia" id="modalTitle" class="modal-title"><center><i class="glyphicon glyphicon-calendar" style="font-size: 35px"></i> My Appointments</center></h1>
                         </div>
                         <div id="rootwizard" class="m-t-10">
                             <div class="tab-content">
@@ -294,7 +293,7 @@
                                                     <th><center>Date</center></th>
                                                     <th><center>Start Time</center></th>
                                                     <th><center>End Time</center></th>
-                                                    <th><center>Description</center></th>
+                                                    <th><center>App Category</center></th>
                                                     <th><center>Cancel App</center></th>
                                                 </tr>
                                                 </thead>
@@ -332,7 +331,7 @@
                                                         <span><center><%= app[i].end %></center></span>
                                                     </td>
                                                     <td >
-                                                        <span><center><%= app[i].description %></center></span>
+                                                        <span><center><%= app[i].category %></center></span>
                                                     </td>
                                                     <td>
                                                         <center>
@@ -599,13 +598,70 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content-wrapper">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="text-align: left" >
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-                    <h1 style="font-family:Georgia" id="modalTitle" class="modal-title">Terms of Use</h1><br>
+                    <h1 style="font-family:Georgia" id="modalTitle" class="modal-title"><center><i class="glyphicon glyphicon-pencil" style="font-size: 25px"></i> Edit your profile</center></h1><br>
                 </div>
-                <div class="modal-body" style="padding-left: 100px">
-                    <br>
-
+                <div class="modal-body" style="padding-bottom: 10px">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-default required">
+                                <label>First Name</label>
+                                <input type="text" name="fname" placeholder="First Name" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-default required">
+                                <label>Last Name</label>
+                                <input type="text" name="sname" placeholder="Last Name" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default required">
+                                <label>Email</label>
+                                <input type="email" name="email" placeholder="Email" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default required">
+                                <label>Username</label>
+                                <input type="text" name="username" placeholder="Username" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default required">
+                                <label>Password</label>
+                                <input type="password" name="password" placeholder="Password" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-default required">
+                                <input type="text" name="dateofbirth" id="appdate1" placeholder="Date of Birth" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group-default-select2 required">
+                                    <select class="full-width" data-placeholder="Select your gender" data-init-plugin="select2" name="selectsex" id="selectsex" required>
+                                        <option value="">Select your gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-primary btn-cons m-t-10 center-block" type="submit" style="display: block; margin: 0 auto; border-color: white; background-color: #0e90d2">Update</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -22,11 +22,20 @@
     <link href="assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="assets/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+
     <link href="assets/plugins/jquery-menuclipper/jquery.menuclipper.css" rel="stylesheet" type="text/css" />
     <link href="pages/css/pages-icons.css" rel="stylesheet" type="text/css">
     <link class="main-stylesheet" href="pages/css/pages.css" rel="stylesheet" type="text/css" />
+
+    <link href="assets/plugins/jquery-datatable/media/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/datatables-responsive/css/datatables.responsive.css" rel="stylesheet" type="text/css" media="screen" />
+
+
     <!--[if lte IE 9]>
     <link href="pages/css/ie9.css" rel="stylesheet" type="text/css" />
+    <link class="main-stylesheet" href="pages/css/pages.css" rel="stylesheet" type="text/css" />
+
     <![endif]-->
     <script type="text/javascript">
         window.onload = function()
@@ -141,7 +150,7 @@
                         <ul class="notification-list no-margin hidden-sm hidden-xs b-grey b-l b-r no-style p-l-30 p-r-20">
                             <li class="p-r-15 inline">
                                 <div class="dropdown">
-                                    <a href="/helper" id="notification-center" class="glyphicon glyphicon-user" > Appointment Helper
+                                    <a href="/helper" id="notification-center" style="font-size: 18px"><i class="glyphicon glyphicon-user" style="font-size: 18px"></i> Appointment Helper
                                     </a>
                                 </div>
                             </li>
@@ -181,6 +190,8 @@
                         <li>
                             <a><i class="glyphicon glyphicon-user"></i> <%= user.fname%> <%= user.sname%></a>
                             <a><i class="pg-mail"></i> <%= user.email%></a>
+                            <a data-target="#Settings" data-toggle="modal" href="#Settings"><i class="glyphicon glyphicon-pencil"></i> Edit your profile</a>
+
                         </li>
                         <li class="bg-master-lighter">
                             <a href="/logout" class="clearfix">
@@ -226,7 +237,7 @@
                 <!-- START PANEL -->
                 <div class="panel panel-transparent">
                     <div class="panel-heading">
-                        <div class="panel-title"><h4><%= user.fname%> <%= user.sname%> Appointment Requests</h4>
+                        <div class="panel-title"><p style="font-size: 20px"><i class="glyphicon glyphicon-user" style="font-size: 35px"></i><%= user.fname%> <%= user.sname%> Appointment Requests</p>
                         </div>
                         <div class="pull-right">
                             <div class="col-xs-12">
@@ -521,6 +532,82 @@
 <!-- END PAGE CONTAINER -->
 
 
+    <div id="Settings" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content-wrapper">
+                <div class="modal-content">
+                    <div class="modal-header" style="text-align: left" >
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                        <h1 style="font-family:Georgia" id="modalTitle" class="modal-title"><center><i class="glyphicon glyphicon-pencil" style="font-size: 25px"></i> Edit your profile</center></h1><br>
+                    </div>
+                    <div class="modal-body" style="padding-bottom: 10px">
+                        <div class="row" style="text-align: left">
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default required">
+                                    <label>First Name</label>
+                                    <input type="text" name="fname" placeholder="First Name" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default required">
+                                    <label>Last Name</label>
+                                    <input type="text" name="sname" placeholder="Last Name" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="text-align: left">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default required">
+                                    <label>Email</label>
+                                    <input type="email" name="email" placeholder="Email" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="text-align: left">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default required">
+                                    <label>Username</label>
+                                    <input type="text" name="username" placeholder="Username" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="text-align: left">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default required">
+                                    <label>Password</label>
+                                    <input type="password" name="password" placeholder="Password" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="text-align: left">
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default required">
+                                    <input type="text" name="dateofbirth" id="appdate1" placeholder="Date of Birth" class="form-control" required>
+                                </div>
+                            </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group-default-select2 required">
+                                        <select class="full-width" data-placeholder="Select your gender" data-init-plugin="select2" name="selectsex" id="selectsex" required>
+                                            <option value="">Select your gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="row">
+                            <button class="btn btn-primary btn-cons m-t-10 center-block" type="submit" style="display: block; margin: 0 auto; border-color: white; background-color: #0e90d2">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <div id="TermofuseModal" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content-wrapper">
@@ -581,6 +668,7 @@
 <script src="assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
 <script src="assets/plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js" type="text/javascript"></script>
+
 <script type="text/javascript" src="assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
 <script type="text/javascript" src="assets/plugins/datatables-responsive/js/lodash.min.js"></script>
 <!-- BEGIN CORE TEMPLATE JS -->
@@ -609,7 +697,7 @@
         var t2=res[7];
         var t3=res[8];
         var end=res[9];
-var drname=t1+" "+t2+" "+t3;
+        var drname=t1+" "+t2+" "+t3;
 
 
         $.ajax({
@@ -632,7 +720,7 @@ var drname=t1+" "+t2+" "+t3;
 
             success: function (data) {
                 // title:data.title + data.start;
-                //location.reload();
+                location.reload();
 
 
             },

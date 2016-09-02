@@ -319,7 +319,7 @@
                 <ul class="notification-list no-margin hidden-sm hidden-xs b-grey b-l b-r no-style p-l-30 p-r-20">
                     <li class="p-r-15 inline">
                         <div class="dropdown">
-                            <a href="/helper" id="notification-center" class="glyphicon glyphicon-user" > Appointment Helper
+                            <a href="/helper" id="notification-center" style="font-size: 18px"><i class="glyphicon glyphicon-user" style="font-size: 18px"></i> Appointment Helper
                             </a>
                         </div>
                     </li>
@@ -350,6 +350,8 @@
                         <li>
                             <a><i class="glyphicon glyphicon-user"></i> <%= user.fname%> <%= user.sname%></a>
                             <a><i class="pg-mail"></i> <%= user.email%></a>
+                            <a data-target="#Settings" data-toggle="modal" href="#Settings"><i class="glyphicon glyphicon-pencil"></i> Edit your profile</a>
+
                         </li>
                         <li class="bg-master-lighter">
                             <a href="/logout" class="clearfix">
@@ -385,19 +387,22 @@
                 </div>
             </div>
             <!-- END JUMBOTRON -->
-
-
             <div class="row">
-               <div class="col-md-5">
-                   <h3 style="font-family: Georgia"><center>Our appointment helper is here to help you!!</center></h3>
+               <div class="col-md-4">
+                   <div class="padding-10">
+                       <div class="row" style="padding-left: 100px">
+                           <img src="assets/img/helper.png" alt="logo" class="brand" data-src="assets/img/helper.png" data-src-retina="assets/img/helper.png" width="180" height="100">
+                       </div>
+                       <h3 style="font-family: Georgia"><center>Our appointment helper is here to help you!!</center></h3>
                        <div class="tab-pane active slide-left" >
-                           <div style="padding-left: 10px">
+                           <div style="padding-left: 30px">
                                <br>
-                               <label for="textarea">Preferable Date:</label>
+                               <div class="row" style="padding-left: 70px">
+                               <label for="textarea">Preferable Appointment Date:</label>
                                <div class="form-group-attached">
                                    <div class="row clearfix">
                                        <div class="col-md-6 pull-left" >
-                                           <div class="form-group form-group-default required" >
+                                           <div class="form-group form-group-default required" style="width: 190px">
                                                <div id="helperdate" class="input-group date col-md-14" aria-hidden="true" >
                                                    <input type="text" class="form-control" style="padding-top: 10px" onchange="dateonchange(this.value)" required><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                </div>
@@ -405,79 +410,63 @@
                                        </div>
                                    </div>
                                </div>
-                               <br>
-                               <label for="textarea">Preferable Time:</label>
-                               <br>
-                               <div class="form-group-attached">
-                                   <div class="row">
-                                       <div class="col-md-4">
-                                           <div class="form-group form-group-default required">
-                                               <div class="col-md-12 input-group bootstrap-timepicker timepicker required">
-                                                   <input id="helperfrom" type="text" class="form-control input-small" style="padding-top: 10px; padding-left: 0px" required>
-                                                   <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                               </div>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-4">
-                                           <div class="form-group form-group-default required">
-                                               <div class="col-md-12 input-group bootstrap-timepicker timepicker required">
-                                                   <input id="helperto" type="text" class="form-control input-small" style="padding-top: 10px; padding-left: 0px" required>
-                                                   <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                               </div>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-4"></div>
-                                   </div>
                                </div>
                                <br>
-
-
+                               <!--<label for="textarea">Preferable Time:</label>-->
+                               <!--<br>-->
+                               <!--<div class="form-group-attached">-->
+                                   <!--<div class="row">-->
+                                       <!--<div class="col-md-4">-->
+                                           <!--<div class="form-group form-group-default required">-->
+                                               <!--<div class="col-md-12 input-group bootstrap-timepicker timepicker required">-->
+                                                   <!--<input id="helperfrom" type="text" class="form-control input-small" style="padding-top: 10px; padding-left: 0px" required>-->
+                                                   <!--<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>-->
+                                               <!--</div>-->
+                                           <!--</div>-->
+                                       <!--</div>-->
+                                       <!--<div class="col-md-4">-->
+                                           <!--<div class="form-group form-group-default required">-->
+                                               <!--<div class="col-md-12 input-group bootstrap-timepicker timepicker required">-->
+                                                   <!--<input id="helperto" type="text" class="form-control input-small" style="padding-top: 10px; padding-left: 0px" required>-->
+                                                   <!--<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>-->
+                                               <!--</div>-->
+                                           <!--</div>-->
+                                       <!--</div>-->
+                                       <!--<div class="col-md-4"></div>-->
+                                   <!--</div>-->
+                               <!--</div>-->
+                               <!--<br>-->
+                               <div class="row" style="padding-left: 100px">
                                <label for="textarea">Doctor Specialty:</label>
                                <br>
-                               <div class="row">
+                               </div>
 
-
+                               <div class="row" style="padding-left: 60px">
                                <div class="form-group-attached">
                                    <div class="dropdown">
-                                       <select class="col-md-5" data-placeholder="Select your gender" data-init-plugin="select2" name="drspec" id="drspec" onchange="refreshcal(this.value)" >
+                                       <select class="col-md-5" data-placeholder="Select your gender" data-init-plugin="select2" name="drspec" id="drspec" style="width: 210px" onchange="refreshcal(this.value)" >
                                            <option value="">Please Select</option>
                                            <option value=Dermatologist>Dermatologist</option>
                                            <option value=Psychiatric>Psychiatric</option>
                                            <option value=Cardiologist>Cardiologist</option>
                                        </select>
                                        <div class="col-md-7">
-
                                        </div>
                                    </div>
-
                                </div>
                                </div>
 
                                <br>
                            </div>
                        </div>
-
-
-
-
-
+                   </div>
                </div>
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <div class="container-fluid container-fixed-lg">
                         <div id='calendar1'></div>
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
 
         </div>
         <!-- END PAGE CONTENT -->
@@ -816,6 +805,84 @@
     </div>
 </div>
 
+
+
+<div id="Settings" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align: left" >
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h1 style="font-family:Georgia" id="modalTitle" class="modal-title"><center><i class="glyphicon glyphicon-pencil" style="font-size: 25px"></i> Edit your profile</center></h1><br>
+                </div>
+                <div class="modal-body" style="padding-bottom: 10px">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-default required">
+                                <label>First Name</label>
+                                <input type="text" name="fname" placeholder="First Name" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-default required">
+                                <label>Last Name</label>
+                                <input type="text" name="sname" placeholder="Last Name" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default required">
+                                <label>Email</label>
+                                <input type="email" name="email" placeholder="Email" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default required">
+                                <label>Username</label>
+                                <input type="text" name="username" placeholder="Username" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default required">
+                                <label>Password</label>
+                                <input type="password" name="password" placeholder="Password" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-default required">
+                                <input type="text" name="dateofbirth" id="appdate1" placeholder="Date of Birth" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group-default-select2 required">
+                                    <select class="full-width" data-placeholder="Select your gender" data-init-plugin="select2" name="selectsex" id="selectsex" required>
+                                        <option value="">Select your gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-primary btn-cons m-t-10 center-block" type="submit" style="display: block; margin: 0 auto; border-color: white; background-color: #0e90d2">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div id="TermofuseModal" class="modal fade bd-example-modal-lg " role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content-wrapper">
@@ -899,19 +966,20 @@
         $('#helperdate').datepicker("setDate",moment().format('MM/DD/yyyy'));
         $('#helperfrom').timepicker("setTime",moment().format('hh:mm:ss a'));
         $('#helperto').timepicker("setTime",moment().format('hh:mm:ss a'));
-    });
-function dateonchange(selvalue){
+        });
+        function dateonchange(selvalue){
+        var ddate=$('#helperdate').datepicker('getDate');
+        var t=new Date(ddate);
+        $('#calendar1').fullCalendar('gotoDate',t);
+
+
+    }
+    function refreshcal(selvalue){
+
     var ddate=$('#helperdate').datepicker('getDate');
-    var t=new Date(ddate);
-    $('#calendar1').fullCalendar('gotoDate',t);
-
-
-}
-function refreshcal(selvalue){
-
-var ddate=$('#helperdate').datepicker('getDate');
-var dfrom=$('#helperfrom').val();
-var dto=$('#helperto').val();
+    var dfrom=$('#helperfrom').val();
+    var dto=$('#helperto').val();
+        var userid=$('#userid').val();
 
     var source={
         url:'/helper/get_spec_appointments',
@@ -920,7 +988,8 @@ var dto=$('#helperto').val();
             specialty:selvalue,
             ddate:ddate,
             dfrom:dfrom,
-            dto:dto
+            dto:dto,
+            userid:userid
         },
         success:function (data)
         {
