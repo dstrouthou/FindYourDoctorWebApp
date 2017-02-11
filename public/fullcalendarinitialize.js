@@ -8,6 +8,7 @@ var userid=$('#userid').val();
         theme: false,
         minTime:'07:00:00',
         maxTime:'22:00:00',
+        timezone:'local',
         header: {
             left: 'prev,next today',
             center: 'title',

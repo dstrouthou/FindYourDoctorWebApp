@@ -43,6 +43,7 @@ $(document).ready(function() {
     var calendar1=$('#calendarMarks').fullCalendar({
 
         defaultView:'month',
+        timezone:'local',
         theme: false,
         header: {
             left: 'prev,next today',

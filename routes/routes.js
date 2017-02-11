@@ -81,6 +81,7 @@ module.exports = function(app, passport) {
                     var t = row.start;
                     var t2 = moment(t).format("MM/DD/YYYY");
                     row.start = t2;
+
                     var v = row.start;
                     var v2 = moment(v).format("hh:mm");
 
@@ -123,6 +124,7 @@ module.exports = function(app, passport) {
                     var t=row.start;
                     var t2=moment(t).format("MM/DD/YYYY");
                     row.start=t2;
+
                     var v=row.start;
                     var v2=moment(v).format("hh:mm");
 

@@ -14,7 +14,6 @@
                 var $total = navigation.find('li').length;
                 var $current = index + 1;
 
-                // If it's the last tab then hide the last button and show the finish instead
                 if ($current >= $total) {
                     $('#rootwizard').find('.pager .next').hide();
                     $('#rootwizard').find('.pager .finish').show().removeClass('disabled hidden');
@@ -28,7 +27,6 @@
                 var btnNext = $('#rootwizard').find('.pager .next').find('button');
                 var btnPrev = $('#rootwizard').find('.pager .previous').find('button');
 
-                // remove fontAwesome icon classes
                 function removeIcons(btn) {
                     btn.removeClass(function(index, css) {
                         return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');

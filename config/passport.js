@@ -1,12 +1,9 @@
 // config/passport.js
 var pg = require('pg');
 var db = process.env.DATABASE_URL||'postgres://bddbdjoivleywu:hSpS9FGO7SDt3K7nrSc1SNMl2x@ec2-54-75-243-54.eu-west-1.compute.amazonaws.com:5432/d5chkp34u741hb';
-
-
-// load all the things we need
 var LocalStrategy   = require('passport-local').Strategy;
 
-// load up the user model
+// load the user model
 var mysql = require('pg');
 var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('./database');
@@ -14,22 +11,14 @@ var dbconfig = require('./database');
 var connection = new pg.Client(db);
 connection.connect();
 
-// connection.query('USE ' + dbconfig.database);
-// expose this function to our app using module.exports
 module.exports = function(passport) {
-
-    // =========================================================================
-    // passport session setup ==================================================
-    // =========================================================================
-    // required for persistent login sessions
-    // passport needs ability to serialize and unserialize users out of session
-
-    // used to serialize the user for the session
+    // passport session setup
+    // Derialize the user for the session
     passport.serializeUser(function(user, done) {
         done(null, user.id);
     });
 
-    // used to deserialize the user
+    // Deserialize the user
     passport.deserializeUser(function(id, done) {
         connection.query('SELECT * FROM "users" WHERE id = ($1)',[id], function(err, rows){
             console.log(rows.rows[0]);
@@ -37,34 +26,25 @@ module.exports = function(passport) {
         });
     });
 
-    // =========================================================================
-    // LOCAL SIGNUP ============================================================
-    // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
-    // by default, if there was no name, it would just be called 'local'
-
+    // LOCAL SIGNUP
     passport.use(
         'local-signup',
         new LocalStrategy({
-                // by default, local strategy uses username and password, we will override with email
+                // Local strategy uses username and password
                 usernameField : 'username',
                 passwordField : 'password',
-                passReqToCallback : true // allows us to pass back the entire request to the callback
+                passReqToCallback : true // Passing back the entire request to the callback
             },
             function(req, username, password, done) {
                 var connection = new pg.Client(db);
                 connection.connect();
-                // find a user whose email is the same as the forms email
-                // we are checking to see if the user trying to login already exists
+                // check whether the user already exists
                 connection.query("SELECT * FROM users WHERE username = ($1)",[username], function(err, rows) {
-                    // if (err)
-                    //     return done(err);
                     console.log(rows);
                     if (rows.rows.length!=0) {
                         return done(null, false, req.flash('signupMessage', 'That username is already taken.'));
                     } else {
-                        // if there is no user with that username
-                        // create the user
+                        // Create the user if not exists
                         var newUserMysql = {
                             username: username,
                             password: bcrypt.hashSync(password, null, null), // use the generateHash function in our user model
@@ -94,37 +74,32 @@ module.exports = function(passport) {
             })
     );
 
-    // =========================================================================
-    // LOCAL LOGIN =============================================================
-    // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
-    // by default, if there was no name, it would just be called 'local'
-
+    // LOCAL LOGIN
     passport.use(
         'local-login',
         new LocalStrategy({
-                // by default, local strategy uses username and password, we will override with email
+                // Local strategy uses username and password
                 usernameField : 'username',
                 passwordField : 'password',
-                passReqToCallback : true // allows us to pass back the entire request to the callback
+                passReqToCallback : true // Passing back the entire request to the callback
             },
-            function(req, username, password, done) { // callback with email and password from our form
+            function(req, username, password, done) {
                 var connection = new pg.Client(db);
                 connection.connect();
                 connection.query("SELECT * FROM users WHERE username = ($1)",[username], function(err, rows){
                     console.log(rows.rows);
+                    // if the username is wrong
                     if (!rows.rows[0]) {
-                        return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+                        return done(null, false, req.flash('loginMessage', 'No user found.'));
                     }
                     if (err)
                         return done(err);
 
-
-                    // if the user is found but the password is wrong
+                    // if the user name is correct but the password is wrong
                     if (!bcrypt.compareSync(password, rows.rows[0].password))
-                        return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+                        return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
 
-                    // all is well, return successful user
+                    // if username and password are correct then user gain access to the system
                     return done(null, rows.rows[0]);
                 });
             })

@@ -404,10 +404,10 @@
                             <!--<button class="btn btn-primary nextBtn btn-lg pull-right" type="button" style="width: 150px; border-color: white; background-color: #0e90d2" >Hello</button>-->
                             <!--<button class="btn btn-primary nextBtn btn-lg pull-left" type="button" style="width: 150px; border-color: white; background-color: #0e90d2" >Bye</button>-->
                             <button id="publical" type="button" data-toggle="modal" data-target="#fullCalModal" class="btn btn-default nextBtn btn-lg pull-left">
-                                <span class="glyphicon glyphicon-calendar"></span> Public Calendar
+                                <span class="glyphicon glyphicon-calendar"></span> Public Appointment
                             </button>
                             <button id="personalcal" type="button" data-toggle="modal" data-target="#PersonalCal" class="btn btn-default nextBtn btn-lg pull-right">
-                                <span class="glyphicon glyphicon-calendar"></span> Personal Calendar
+                                <span class="glyphicon glyphicon-calendar"></span> Personal Appointment
                             </button>
                         </div>
 
@@ -1485,7 +1485,7 @@
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane padding-20 active slide-left" id="ntab1">
+                        <div class="tab-pane padding-20 active slide-left" id="ntab1" >
                             <div class="row row-same-height" style="padding-left: 60px; padding-right: 60px; padding-bottom: 0px; padding-top: 0px;">
                                 <!--<div class="col-md-5 b-r b-dashed b-grey sm-b-b">-->
                                 <div class="padding-30">
@@ -1751,15 +1751,13 @@
                                 <input type="text" name="dateofbirth" id="appdate1" placeholder="Date of Birth" class="form-control" required>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group-default-select2 required">
-                                    <select class="full-width" data-placeholder="Select your gender" data-init-plugin="select2" name="selectsex" id="selectsex" required>
-                                        <option value="">Select your gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                </div>
+                        <div class="col-sm-6">
+                            <div class="form-group-default-select2 required">
+                                <select class="full-width" data-placeholder="Select your gender" data-init-plugin="select2" name="selectsex" id="selectsex" required>
+                                    <option value="">Select your gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
                             </div>
                         </div>
                     </div>
